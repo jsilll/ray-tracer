@@ -1,40 +1,32 @@
-#include <cassert>
-
-#include "../ray.hpp"
+#include <catch2/catch_test_macros.hpp>
+#include <ray.hpp>
 
 using rt::Ray;
 using rt::Vec3;
 
-void test_ray_origin()
+TEST_CASE("ray_origin")
 {
-  Ray a(Vec3(1, 2, 3), Vec3(4, 5, 6));
-  Vec3 b = a.origin();
-  assert(b.x() == 1);
-  assert(b.y() == 2);
-  assert(b.z() == 3);
+  constexpr Ray a(Vec3(1, 2, 3), Vec3(4, 5, 6));
+  constexpr auto b = a.origin();
+  REQUIRE(b.x() == 1);
+  REQUIRE(b.y() == 2);
+  REQUIRE(b.z() == 3);
 }
 
-void test_ray_direction()
+TEST_CASE("ray_direction")
 {
-  Ray a(Vec3(1, 2, 3), Vec3(4, 5, 6));
-  Vec3 b = a.direction();
-  assert(b.x() == 4);
-  assert(b.y() == 5);
-  assert(b.z() == 6);
+  constexpr Ray a(Vec3(1, 2, 3), Vec3(4, 5, 6));
+  constexpr auto b = a.direction();
+  REQUIRE(b.x() == 4);
+  REQUIRE(b.y() == 5);
+  REQUIRE(b.z() == 6);
 }
 
-void test_ray_at()
+TEST_CASE("ray_at")
 {
-  Ray a(Vec3(1, 2, 3), Vec3(4, 5, 6));
-  Vec3 b = a.At(2);
-  assert(b.x() == 9);
-  assert(b.y() == 12);
-  assert(b.z() == 15);
-}
-
-int main()
-{
-  test_ray_origin();
-  test_ray_direction();
-  test_ray_at();
+  constexpr Ray a(Vec3(1, 2, 3), Vec3(4, 5, 6));
+  constexpr auto b = a.At(2);
+  REQUIRE(b.x() == 9);
+  REQUIRE(b.y() == 12);
+  REQUIRE(b.z() == 15);
 }

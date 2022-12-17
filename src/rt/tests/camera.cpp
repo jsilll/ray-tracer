@@ -1,33 +1,22 @@
-#include <cassert>
-
-#include "../camera.hpp"
+#include <camera.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 using rt::Camera;
 
-void test_camera_focal_length()
+TEST_CASE("camera_focal_length")
 {
-  Camera a(1, 3, 2);
-  double b = a.focal_length();
-  assert(b == 1);
+  constexpr Camera a(1, 3, 2);
+  REQUIRE(a.focal_length() == 1);
 }
 
-void test_camera_viewport_width()
+TEST_CASE("camera_viewport_width")
 {
-  Camera a(1, 3, 2);
-  double b = a.viewport_width();
-  assert(b == 3);
+  constexpr Camera a(1, 3, 2);
+  REQUIRE(a.viewport_width() == 3);
 }
 
-void test_camera_viewport_height()
+TEST_CASE("camera_viewport_height")
 {
-  Camera a(1, 3, 2);
-  double b = a.viewport_height();
-  assert(b == 2);
-}
-
-int main()
-{
-  test_camera_focal_length();
-  test_camera_viewport_width();
-  test_camera_viewport_height();
+  constexpr Camera a(1, 3, 2);
+  REQUIRE(a.viewport_height() == 2);
 }

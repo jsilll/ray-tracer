@@ -15,7 +15,7 @@ using rt::Vec3;
 
 constexpr auto RayColor(const Ray &ray)
 {
-  double t = 0.5 * (ray.direction().Normalized().y() + 1.);
+  const double t = 0.5 * (ray.direction().Normalized().y() + 1.);
   constexpr Color white(1., 1., 1.);
   constexpr Color blue(0.5, 0.7, 1.);
   constexpr Color orange(1., 0.5, 0.);

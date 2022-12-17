@@ -17,13 +17,9 @@ public:
 
   [[nodiscard]] constexpr auto z() const noexcept { return e_[2]; }
 
-  [[nodiscard]] constexpr auto &operator[](std::size_t i) noexcept { return e_[i]; }
-
-  [[nodiscard]] constexpr auto operator[](std::size_t i) const noexcept { return e_[i]; }
-
   [[nodiscard]] constexpr auto operator-() const noexcept { return Vec3(-e_[0], -e_[1], -e_[2]); }
 
-  [[nodiscard]] constexpr auto &operator+=(const Vec3 &v) noexcept
+  constexpr auto &operator+=(const Vec3 &v) noexcept
   {
     e_[0] += v.e_[0];
     e_[1] += v.e_[1];
@@ -31,7 +27,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] constexpr auto &operator*=(const double t) noexcept
+  constexpr auto &operator-=(const Vec3 &v) noexcept
+  {
+    e_[0] -= v.e_[0];
+    e_[1] -= v.e_[1];
+    e_[2] -= v.e_[2];
+    return *this;
+  }
+
+  constexpr auto &operator*=(const double t) noexcept
   {
     e_[0] *= t;
     e_[1] *= t;
@@ -39,7 +43,7 @@ public:
     return *this;
   }
 
-  [[nodiscard]] constexpr auto &operator/=(const double t) noexcept { return *this *= 1 / t; }
+  constexpr auto &operator/=(const double t) noexcept { return *this *= 1 / t; }
 
   [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const Vec3 &v)
   {
