@@ -5,11 +5,14 @@
 
 using rt::Sphere;
 using rt::Ray;
+using rt::HitRecord;
+using rt::Point;
+using rt::Vec3f;
 
 TEST_CASE("sphere_center")
 {
-  constexpr Sphere a({ 1, 2, 3 }, 4);
-  constexpr auto b = a.center();
+  const Sphere a({ 1, 2, 3 }, 4);
+  const auto b = a.center();
   REQUIRE(b.x() == 1.f);
   REQUIRE(b.y() == 2.f);
   REQUIRE(b.z() == 3.f);
@@ -17,32 +20,45 @@ TEST_CASE("sphere_center")
 
 TEST_CASE("sphere_radius")
 {
-  constexpr Sphere a({ 1, 2, 3 }, 4);
-  STATIC_REQUIRE(a.radius() == 4.f);
+  const Sphere a({ 1, 2, 3 }, 4);
+  REQUIRE(a.radius() == 4.f);
 }
 
 TEST_CASE("sphere_radius2")
 {
-  constexpr Sphere a({ 1, 2, 3 }, 4);
+  const Sphere a({ 1, 2, 3 }, 4);
   REQUIRE(a.Radius2() == 16.f);
 }
 
-TEST_CASE("sphere_intersected_by")
+TEST_CASE("sphere_intersected")
 {
-  constexpr Sphere sphere({ 0, 0, 0 }, 1);
+  HitRecord rec;
+  const Sphere sphere({ 0, 0, 0 }, 1);
 
-  constexpr Ray r1({ 0, 0, -5 }, { 0, 0, 1 });
-  REQUIRE(sphere.IntersectedBy(r1) == true);
+  Ray ray({ 0, 0, -5 }, { 0, 0, 1 });
+  REQUIRE(sphere.Intersect(ray, 0, 10, rec));
+  REQUIRE(rec.t == 4.f);
+  REQUIRE(rec.p == Point(0, 0, -1));
+  REQUIRE(rec.normal == Vec3f(0, 0, -1));
 
-  constexpr Ray r2({ 0, 0, -5 }, { 0, 1, 0 });
-  REQUIRE(sphere.IntersectedBy(r2) == false);
+  ray = { { 0, 0, -5 }, { 0, 0, -1 } };
+  REQUIRE(!sphere.Intersect(ray, 0, 10, rec));
 
-  constexpr Ray r3({ 0, 0, -5 }, { 0, 0, -1 });
-  REQUIRE(sphere.IntersectedBy(r3) == true);
+  ray = { { 0, 0, 0 }, { 0, 0, 1 } };
+  REQUIRE(sphere.Intersect(ray, 0, 10, rec));
+  REQUIRE(rec.t == 1.f);
+  REQUIRE(rec.p == Point(0, 0, 1));
+  REQUIRE(rec.normal == Vec3f(0, 0, 1));
 
-  constexpr Ray r4(rt::Point(0, 0, -5), { 0, 0, 1 });
-  REQUIRE(sphere.IntersectedBy(r4) == true);
+  ray = { { 0, 0, 2 }, { 0, 0, 1 } };
+  REQUIRE(!sphere.Intersect(ray, 0, 10, rec));
 
-  constexpr Ray r5(rt::Point(0, 0, -5), { 0, 0, 1 });
-  REQUIRE(sphere.IntersectedBy(r5) == true);
+  ray = { { 0, 1, -5 }, { 0, 0, 1 } };
+  REQUIRE(sphere.Intersect(ray, 0, 10, rec));
+  REQUIRE(rec.t == 5.f);
+  REQUIRE(rec.p == Point(0, 1, -0));
+  REQUIRE(rec.normal == Vec3f(0, 1, 0));
+
+  ray = { { 0, 2, -5 }, { 0, 0, 1 } };
+  REQUIRE(!sphere.Intersect(ray, 0, 10, rec));
 }

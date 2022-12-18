@@ -32,10 +32,10 @@ public:
 
   /**
    * @brief Returns the point at the given distance along the ray.
-   * @param t
+   * @param t The distance along the ray.
    * @return
    */
-  [[nodiscard]] constexpr auto At(float t) const noexcept { return _origin + t * _direction; }
+  [[nodiscard]] constexpr auto At(const float t) const noexcept { return _origin + t * _direction; }
 
 private:
   Point _origin;

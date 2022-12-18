@@ -2,7 +2,7 @@
 
 add_library(rt
         camera.h color.h point.h ray.h vec3.h
-        primitives/sphere.h)
+        primitives/sphere.h primitives/surface.h)
 
 get_filename_component(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 

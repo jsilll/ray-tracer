@@ -14,11 +14,11 @@ template<typename T> class Vec3 final
 public:
   /**
    * @brief Constructs a vector with the given x, y, and z components.
-   * @param e0 The x component.
-   * @param e1 The y component.
-   * @param e2 The z component.
+   * @param x The x component.
+   * @param y The y component.
+   * @param z The z component.
    */
-  [[nodiscard]] constexpr Vec3(T x, T y, T z) noexcept : _e{ x, y, z } {}
+  [[nodiscard]] constexpr Vec3(const T x, const T y, const T z) noexcept : _e{ x, y, z } {}
 
   /**
    * @brief Returns the x component of this vector.
@@ -39,14 +39,14 @@ public:
   [[nodiscard]] constexpr auto z() const noexcept { return _e[2]; }
 
   /**
-   * @brief Returns the length of the vector.
+   * @brief Negates this vector.
    * @return
    */
   [[nodiscard]] constexpr auto operator-() const noexcept { return Vec3(-_e[0], -_e[1], -_e[2]); }
 
   /**
-   * @brief Returns the squared length of the vector.
-   * @param v
+   * @brief Sums this vector with the given vector.
+   * @param v The vector.
    * @return
    */
   constexpr auto &operator+=(const Vec3 &v) noexcept
@@ -58,8 +58,8 @@ public:
   }
 
   /**
-   * @brief Returns the squared length of the vector.
-   * @param v
+   * @brief Subtracts the given vector from this vector.
+   * @param v The vector.
    * @return
    */
   constexpr auto &operator-=(const Vec3 &v) noexcept
@@ -72,7 +72,7 @@ public:
 
   /**
    * @brief Multiply this vector by a scalar.
-   * @param t
+   * @param t The scalar.
    * @return
    */
   constexpr auto &operator*=(const T t) noexcept
@@ -85,14 +85,14 @@ public:
 
   /**
    * @brief Divide each component of the vector by the given scalar.
-   * @param t
+   * @param t The scalar.
    * @return
    */
   constexpr auto &operator/=(const T t) noexcept { return *this *= 1 / t; }
 
   /**
-   * @brief Returns the length of the vector.
-   * @param v
+   * @brief Returns whether this vector is equal to the given vector.
+   * @param v The vector.
    * @return
    */
   constexpr auto operator==(const Vec3 &v) const noexcept
@@ -101,9 +101,20 @@ public:
   }
 
   /**
-   * @brief Returns the length of the vector.
+   * @brief Returns the sum of this vector with a scalar.
    * @param u
-   * @param v
+   * @param t
+   * @return
+   */
+  [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const T t) noexcept
+  {
+    return Vec3(u._e[0] + t, u._e[1] + t, u._e[2] + t);
+  }
+
+  /**
+   * @brief Sums two vectors.
+   * @param u The first vector.
+   * @param v The second vector.
    * @return
    */
   [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const Vec3 &v) noexcept
@@ -113,8 +124,8 @@ public:
 
   /**
    * @brief Subtracts two vectors.
-   * @param u
-   * @param v
+   * @param u The first vector.
+   * @param v The second vector.
    * @return
    */
   [[nodiscard]] friend constexpr auto operator-(const Vec3 &u, const Vec3 &v) noexcept
@@ -123,9 +134,9 @@ public:
   }
 
   /**
-   * @brief Dot product.
-   * @param u
-   * @param v
+   * @brief Element-wise multiplication of two vectors.
+   * @param u The first vector.
+   * @param v The second vector.
    * @return
    */
   [[nodiscard]] friend constexpr auto operator*(const Vec3 &u, const Vec3 &v) noexcept
@@ -134,40 +145,40 @@ public:
   }
 
   /**
-   * @brief Dot product.
-   * @param t
-   * @param v
+   * @brief Multiplies a vector by a scalar.
+   * @param t The scalar.
+   * @param v The vector.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator*(T t, const Vec3 &v) noexcept
+  [[nodiscard]] friend constexpr auto operator*(const T t, const Vec3 &v) noexcept
   {
     return Vec3(t * v._e[0], t * v._e[1], t * v._e[2]);
   }
 
   /**
-   * @brief Dot product of two vectors.
-   * @param v
-   * @param t
+   * @brief Multiplies a vector by a scalar.
+   * @param v The vector.
+   * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator*(const Vec3 &v, T t) noexcept { return t * v; }
+  [[nodiscard]] friend constexpr auto operator*(const Vec3 &v, const T t) noexcept { return t * v; }
 
   /**
-   * @brief Dot product.
-   * @param v
-   * @param t
+   * @brief Divides a vector by a scalar.
+   * @param v The vector.
+   * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator/(const Vec3 &v, T t) noexcept { return (1 / t) * v; }
+  [[nodiscard]] friend constexpr auto operator/(const Vec3 &v, const T t) noexcept { return (1 / t) * v; }
 
   /**
-   * @brief Dot product of two vectors.
+   * @brief Returns the norm of the vector squared.
    * @return
    */
   [[nodiscard]] constexpr auto NormSquared() const noexcept { return _e[0] * _e[0] + _e[1] * _e[1] + _e[2] * _e[2]; }
 
   /**
-   * @brief Returns the length of the vector.
+   * @brief Returns the norm of the vector.
    * @return
    */
   [[nodiscard]] constexpr auto Norm() const noexcept { return std::sqrt(NormSquared()); }
@@ -179,8 +190,8 @@ public:
   [[nodiscard]] constexpr auto Normalized() const noexcept { return *this / Norm(); }
 
   /**
-   * @brief Dot product.
-   * @param v
+   * @brief Returns the dot product of two vectors.
+   * @param v The vector.
    * @return
    */
   [[nodiscard]] constexpr auto Dot(const Vec3 &v) const noexcept
@@ -190,7 +201,7 @@ public:
 
   /**
    * @brief Cross product of two vectors.
-   * @param v
+   * @param v The vector.
    * @return
    */
   [[nodiscard]] constexpr auto Cross(const Vec3 &v) const noexcept
@@ -201,8 +212,8 @@ public:
 
   /**
    * @brief Returns a Vec3 with the same direction as this Vec3, but with a norm of 1.
-   * @param out
-   * @param v
+   * @param out The output stream.
+   * @param v The vector.
    * @return
    */
   friend auto &operator<<(std::ostream &out, const Vec3 &v) noexcept
