@@ -1,11 +1,14 @@
 add_executable(camera_tests camera.cpp)
 add_executable(ray_tests ray.cpp)
 add_executable(vec3_tests vec3.cpp)
+add_executable(sphere_tests sphere.cpp)
 
 target_link_libraries(camera_tests PUBLIC rt PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(ray_tests PUBLIC rt PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(vec3_tests PUBLIC rt PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(sphere_tests PUBLIC rt PRIVATE Catch2::Catch2WithMain)
 
 add_test(NAME camera_tests COMMAND camera_tests)
 add_test(NAME ray_test COMMAND ray_tests)
 add_test(NAME vec3_tests COMMAND vec3_tests)
+add_test(NAME sphere_tests COMMAND sphere_tests)

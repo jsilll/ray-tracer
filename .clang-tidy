@@ -16,10 +16,9 @@ Checks: "*,
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
-FormatStyle:     none
+FormatStyle: none
 
-
-
-
-
-
+MinimumVariableNameLength: 1
+MinimumParameterNameLength: 1
+MinimumLoopCounterNameLength: 1
+MinimumExceptionNameLength: 1

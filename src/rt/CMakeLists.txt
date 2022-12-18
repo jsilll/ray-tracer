@@ -1,26 +1,31 @@
+# -- Library --
+
+add_library(rt
+        camera.h color.h point.h ray.h vec3.h
+        primitives/sphere.h)
+
+get_filename_component(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+
+target_include_directories(rt PUBLIC ${PARENT_DIR})
+
+set_target_properties(rt PROPERTIES LINKER_LANGUAGE CXX)
+
 # -- Compiler Flags --
 
 if (MSVC)
-    add_compile_options(/W4 /w14640 /permissive)
-else()
-    add_compile_options(-pedantic -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align
+    target_compile_options(rt PUBLIC /W4 /w14640 /permissive)
+else ()
+    target_compile_options(rt PUBLIC -pedantic -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align
             -Wunused -Woverloaded-virtual -Wpedantic -Wconversion -Wsign-conversion -Wmisleading-indentation
-            -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast
-            -Wdouble-promotion -Wformat=2 -Wimplicit-fallthrough -Werror)
-endif()
+            -Wnull-dereference -Wdouble-promotion -Wformat=2 -Wimplicit-fallthrough -Werror)
+endif ()
 
-# -- Library --
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    target_compile_options(rt PUBLIC -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast)
+endif ()
 
-add_library (
-        rt
-        camera.hpp
-        color.hpp
-        point.hpp
-        ray.hpp
-        vec3.hpp)
-set_target_properties(rt PROPERTIES LINKER_LANGUAGE CXX)
-target_include_directories(rt PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-# -- Tests --
-
-add_subdirectory(tests)
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    target_compile_options(rt PUBLIC -g -O0)
+elseif (CMAKE_BUILD_TYPE MATCHES Release)
+    target_compile_options(rt PUBLIC -O3 -march=native)
+endif ()
