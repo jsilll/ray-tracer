@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 # -- Project Setup --
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -30,6 +30,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
-# -- Source --
+# -- Library --
 
 add_subdirectory(src)
+
+add_subdirectory(tests)
+
+# -- Executable --
+
+add_subdirectory(apps)

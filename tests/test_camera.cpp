@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <rt/camera.h>
+#include <rt/camera.hpp>
 
 using rt::Camera;
 
@@ -39,4 +39,3 @@ TEST_CASE("camera_up")
   constexpr Camera camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
   STATIC_REQUIRE(camera.up() == rt::Vec3f(0, 1, 0));
 }
-

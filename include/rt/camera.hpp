@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/point.h>
+#include <rt/point.hpp>
 
 namespace rt {
 
@@ -20,9 +20,9 @@ public:
   [[nodiscard]] constexpr Camera(const float focal_length,
     const float viewport_width,
     const float viewport_height,
-    const Point position,
-    const Point look_at,
-    const Vec3f up) noexcept
+    const Point &position,
+    const Point &look_at,
+    const Vec3f &up) noexcept
     : _focal_length(focal_length), _viewport_width(viewport_width), _viewport_height(viewport_height),
       _position(position), _look_at(look_at), _up(up)
   {}

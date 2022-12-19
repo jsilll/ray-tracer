@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <rt/ray.h>
+#include <rt/ray.hpp>
 
 using rt::Ray;
 

@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <rt/vec3.h>
+#include <rt/vec3.hpp>
 
 using rt::Vec3f;
 

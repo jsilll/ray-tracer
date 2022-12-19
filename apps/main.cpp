@@ -3,12 +3,12 @@
 #include <iostream>
 #include <string>
 
-#include <rt/camera.h>
-#include <rt/color.h>
-#include <rt/point.h>
-#include <rt/primitives/sphere.h>
-#include <rt/ray.h>
-#include <rt/vec3.h>
+#include <rt/camera.hpp>
+#include <rt/color.hpp>
+#include <rt/point.hpp>
+#include <rt/primitives/sphere.hpp>
+#include <rt/ray.hpp>
+#include <rt/vec3.hpp>
 
 using rt::Point;
 using rt::HitRecord;

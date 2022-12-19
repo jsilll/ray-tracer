@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/vec3.h>
+#include <rt/vec3.hpp>
 
 namespace rt {
 

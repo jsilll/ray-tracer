@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <rt/color.h>
+#include <rt/color.hpp>
 
 using rt::Color;
 using rt::Vec3f;

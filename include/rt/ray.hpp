@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/point.h>
-#include <rt/vec3.h>
+#include <rt/point.hpp>
+#include <rt/vec3.hpp>
 
 namespace rt {
 

@@ -102,8 +102,8 @@ public:
 
   /**
    * @brief Returns the sum of this vector with a scalar.
-   * @param u
-   * @param t
+   * @param u The vector.
+   * @param t The scalar.
    * @return
    */
   [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const T t) noexcept

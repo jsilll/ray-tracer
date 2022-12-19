@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <rt/primitives/sphere.h>
-#include <rt/ray.h>
+#include <rt/primitives/sphere.hpp>
+#include <rt/ray.hpp>
 
 using rt::Sphere;
 using rt::Ray;
@@ -12,10 +12,7 @@ using rt::Vec3f;
 TEST_CASE("sphere_center")
 {
   const Sphere a({ 1, 2, 3 }, 4);
-  const auto b = a.center();
-  REQUIRE(b.x() == 1.f);
-  REQUIRE(b.y() == 2.f);
-  REQUIRE(b.z() == 3.f);
+  REQUIRE(a.center() == Point(1, 2, 3));
 }
 
 TEST_CASE("sphere_radius")
@@ -32,9 +29,9 @@ TEST_CASE("sphere_radius2")
 
 TEST_CASE("sphere_intersected")
 {
-  HitRecord rec;
   const Sphere sphere({ 0, 0, 0 }, 1);
 
+  HitRecord rec;
   Ray ray({ 0, 0, -5 }, { 0, 0, 1 });
   REQUIRE(sphere.Intersect(ray, 0, 10, rec));
   REQUIRE(rec.t == 4.f);

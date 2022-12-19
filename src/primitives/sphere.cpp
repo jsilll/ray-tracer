@@ -1,8 +1,9 @@
-#include <rt/primitives/sphere.h>
+#include <rt/primitives/sphere.hpp>
 
 namespace rt {
 
-[[nodiscard]] bool Sphere::Intersect(const Ray &ray, const float t_min, const float t_max, HitRecord &rec) const noexcept
+[[nodiscard]] bool
+  Sphere::Intersect(const Ray &ray, const float t_min, const float t_max, HitRecord &rec) const noexcept
 {
   const auto oc = ray.origin() - _center;
   const auto a = ray.direction().NormSquared();

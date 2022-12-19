@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/point.h>
-#include <rt/ray.h>
-#include <rt/vec3.h>
+#include <rt/point.hpp>
+#include <rt/ray.hpp>
+#include <rt/vec3.hpp>
 
 namespace rt {
 
@@ -31,7 +31,7 @@ public:
    * @param rec The record of the intersection.
    * @return
    */
-  virtual bool Intersect(const Ray &ray, float t_min, float t_max, HitRecord &rec) const noexcept = 0;
+  [[nodiscard]] virtual bool Intersect(const Ray &ray, float t_min, float t_max, HitRecord &rec) const noexcept = 0;
 };
 
 }// namespace rt

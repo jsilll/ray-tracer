@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/point.h>
-#include <rt/primitives/surface.h>
-#include <rt/ray.h>
-#include <rt/vec3.h>
+#include <rt/point.hpp>
+#include <rt/primitives/surface.hpp>
+#include <rt/ray.hpp>
+#include <rt/vec3.hpp>
 
 namespace rt {
 
@@ -36,14 +36,6 @@ public:
    */
   [[nodiscard]] constexpr auto Radius2() const noexcept { return _radius * _radius; }
 
-  /**
-   * @brief Returns whether the given ray intersects the sphere.
-   * @param ray
-   * @param t_min
-   * @param t_max
-   * @param rec
-   * @return
-   */
   [[nodiscard]] bool Intersect(const Ray &ray, float t_min, float t_max, HitRecord &rec) const noexcept override;
 
 private:
