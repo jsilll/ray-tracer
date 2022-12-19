@@ -22,12 +22,12 @@ using rt::Camera;
 {
   HitRecord rec;
   const Sphere sphere({ 0, 0, -1 }, 0.5f);
-  const auto intersects = sphere.Intersect(ray, 0, 2, rec);
+  const bool intersects = sphere.Intersect(ray, 0, 2, rec);
   if (intersects) return rt::color::FromNormal(rec.normal);
   const auto u = 0.5f * (ray.direction().Normalized().y() + 1.f);
   constexpr Color blue(0.5, 0.7f, 1);
-  constexpr Color orange(1, 0.5, 0);
-  return (1.f - u) * orange + u * blue;
+  constexpr Color white(1, 1, 1);
+  return (1.f - u) * white + u * blue;
 }
 
 void WriteColor(std::fstream &out, const Color &pixel_color)

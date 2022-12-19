@@ -38,7 +38,9 @@ public:
   [[nodiscard]] constexpr auto At(const float t) const noexcept { return _origin + t * _direction; }
 
 private:
+  /// @brief The origin of the ray.
   Point _origin;
+  /// @brief The direction of the ray.
   Vec3f _direction;
 };
 

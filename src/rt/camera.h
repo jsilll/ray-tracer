@@ -64,11 +64,17 @@ public:
   [[nodiscard]] constexpr auto up() const noexcept { return _up; }
 
 private:
+  /// @brief The focal length of the camera.
   float _focal_length;
+  /// @brief The width of the viewport.
   float _viewport_width;
+  /// @brief The height of the viewport.
   float _viewport_height;
+  /// @brief The position of the camera.
   Point _position;
+  /// @brief The point the camera is looking at.
   Point _look_at;
+  /// @brief The up vector of the camera.
   Vec3f _up;
 };
 

@@ -222,6 +222,7 @@ public:
   }
 
 private:
+  /// @brief The components of the vector.
   T _e[3];
 };
 

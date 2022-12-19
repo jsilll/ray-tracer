@@ -11,7 +11,7 @@ namespace color {
 
   /**
    * @brief Returns a color from the normals of a surface.
-   * @param normal
+   * @param normal The normal of the surface.
    * @return
    */
   [[nodiscard]] constexpr Color FromNormal(const Vec3f &normal) noexcept { return (normal + 1.0f) / 2; }
