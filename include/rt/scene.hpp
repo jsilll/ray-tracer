@@ -20,11 +20,11 @@ public:
    * @brief Returns whether the scene is empty.
    * @return
    */
-  [[nodiscard]] auto Empty() const noexcept { return _objects.empty(); }
+  [[nodiscard]] bool IsEmpty() const noexcept { return _objects.empty(); }
 
   /**
    * @brief Adds an object to the scene.
-   * @param surface
+   * @param object The object to add.
    */
   void Add(std::unique_ptr<Surface> object) noexcept { _objects.push_back(std::move(object)); }
 

@@ -16,7 +16,7 @@ TEST_CASE("scene_clear")
   Scene scene;
   scene.Add(std::make_unique<Sphere>(Point(0, 0, -1), 0.5f));
   scene.Clear();
-  REQUIRE(scene.Empty());
+  REQUIRE(scene.IsEmpty());
 }
 
 TEST_CASE("surface_intersect")

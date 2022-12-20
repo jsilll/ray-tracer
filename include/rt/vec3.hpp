@@ -95,7 +95,7 @@ public:
    * @param v The vector.
    * @return
    */
-  constexpr auto operator==(const Vec3 &v) const noexcept
+  [[nodiscard]] constexpr auto operator==(const Vec3 &v) const noexcept
   {
     return _e[0] == v._e[0] && _e[1] == v._e[1] && _e[2] == v._e[2];
   }

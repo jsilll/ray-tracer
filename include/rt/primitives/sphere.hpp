@@ -1,8 +1,8 @@
 #pragma once
 
 #include <rt/point.hpp>
-#include <rt/surface.hpp>
 #include <rt/ray.hpp>
+#include <rt/surface.hpp>
 #include <rt/vec3.hpp>
 
 namespace rt {

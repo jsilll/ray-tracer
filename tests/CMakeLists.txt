@@ -1,6 +1,6 @@
 file(GLOB TESTS_SRC ${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/primitives/test_*.cpp)
 
-foreach(TEST_SRC ${TESTS_SRC})
+foreach (TEST_SRC ${TESTS_SRC})
     get_filename_component(TEST_NAME ${TEST_SRC} NAME_WLE)
     add_executable(${TEST_NAME} ${TEST_SRC})
     target_link_libraries(${TEST_NAME} PUBLIC rt PRIVATE Catch2::Catch2WithMain)
@@ -16,7 +16,7 @@ foreach(TEST_SRC ${TESTS_SRC})
 
     if (CMAKE_CXX_COMPILE_ID MATCHES "GNU")
         target_compile_option(${TEST_NAME} PUBLIC -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast)
-    endif()
+    endif ()
 
     if (CMAKE_BUILD_TYPE MATCHES Debug)
         target_compile_options(${TEST_NAME} PUBLIC -g -O0)
@@ -24,4 +24,4 @@ foreach(TEST_SRC ${TESTS_SRC})
         target_compile_options(${TEST_NAME} PUBLIC -O3 -march=native)
     endif ()
 
-endforeach()
+endforeach ()

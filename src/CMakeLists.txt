@@ -19,8 +19,8 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
 endif ()
 
 if (CMAKE_CXX_COMPILE_ID MATCHES "GNU")
-    target_compile_option(rt PUBLIC -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast) 
-endif()
+    target_compile_option(rt PUBLIC -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast)
+endif ()
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_options(rt PUBLIC -g -O0)
