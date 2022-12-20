@@ -10,7 +10,7 @@ Image Renderer::Render(const rt::Scene &scene, const rt::Camera &camera) const n
   const auto lower_left_corner = camera.position() - horizontal / 2 - vertical / 2 - rt::Vec3f(0, 0, camera.focal_length());
 
   // Creating a 2D array of pixels
-  std::vector<std::vector<rt::Color>> pixels(_image_width, std::vector<rt::Color>(_image_height, { 0, 0, 0 }));
+  auto pixels = std::vector(_image_width, std::vector<rt::Color>(_image_height, { 0, 0, 0 }));
 
   // Rendering the image
   const float width_max = static_cast<float>(_image_width - 1);
@@ -23,15 +23,16 @@ Image Renderer::Render(const rt::Scene &scene, const rt::Camera &camera) const n
       const auto h = static_cast<float>(i) / width_max;
       const auto v = static_cast<float>(j) / height_max;
       const auto direction = h * horizontal + v * vertical + direction_offset;
-      return RayColor(rt::Ray(camera.position(), direction), scene);
+      return RayColor(scene, rt::Ray(camera.position(), direction));
     });
     return col;
   });
 
+  // Returning the image
   return Image(std::move(pixels));
 }
 
-rt::Color Renderer::RayColor(const rt::Ray &ray, const rt::Scene &scene) noexcept
+rt::Color Renderer::RayColor(const rt::Scene &scene, const rt::Ray &ray) noexcept
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {

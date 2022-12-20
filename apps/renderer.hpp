@@ -37,7 +37,7 @@ private:
    * @param scene The scene.
    * @return
    */
-  [[nodiscard]] static rt::Color RayColor(const rt::Ray &ray, const rt::Scene &scene) noexcept;
+  [[nodiscard]] static rt::Color RayColor(const rt::Scene &scene, const rt::Ray &ray) noexcept;
 
   /// @brief The width of the image.
   std::size_t _image_width;

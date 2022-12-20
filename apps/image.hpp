@@ -12,7 +12,12 @@ public:
    * @brief Construct a new Image object
    * @param pixels The pixels of the image.
    */
-  [[nodiscard]] explicit Image(std::vector<std::vector<rt::Color>> &&pixels) noexcept : _pixels(std::move(pixels)) {}
+  [[nodiscard]] explicit Image(const std::vector<std::vector<rt::Color>> &&pixels) noexcept : _pixels(std::move(pixels)) {}
+
+  /// @brief Disable copy.
+  Image(Image &&) = delete;
+  /// @brief Disable copy.
+  Image &operator=(Image &&) = delete;
 
   /**
    * @brief Save the image to a PPM file
