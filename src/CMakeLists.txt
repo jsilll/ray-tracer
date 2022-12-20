@@ -1,6 +1,8 @@
 # -- Library --
 
-add_library(rt primitives/sphere.cpp)
+add_library(rt
+        scene.cpp
+        primitives/sphere.cpp)
 
 target_include_directories(rt PUBLIC ${CMAKE_SOURCE_DIR}/include/)
 

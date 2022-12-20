@@ -1,4 +1,4 @@
-file(GLOB TESTS_SRC ${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp)
+file(GLOB TESTS_SRC ${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/primitives/test_*.cpp)
 
 foreach(TEST_SRC ${TESTS_SRC})
     get_filename_component(TEST_NAME ${TEST_SRC} NAME_WLE)

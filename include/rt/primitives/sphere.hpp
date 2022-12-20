@@ -1,7 +1,7 @@
 #pragma once
 
 #include <rt/point.hpp>
-#include <rt/primitives/surface.hpp>
+#include <rt/surface.hpp>
 #include <rt/ray.hpp>
 #include <rt/vec3.hpp>
 

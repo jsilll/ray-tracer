@@ -35,6 +35,7 @@ TEST_CASE("sphere_intersected")
   Ray ray({ 0, 0, -5 }, { 0, 0, 1 });
   REQUIRE(sphere.Intersect(ray, 0, 10, rec));
   REQUIRE(rec.t == 4.f);
+  REQUIRE(rec.front_face == true);
   REQUIRE(rec.p == Point(0, 0, -1));
   REQUIRE(rec.normal == Vec3f(0, 0, -1));
 
@@ -44,8 +45,9 @@ TEST_CASE("sphere_intersected")
   ray = { { 0, 0, 0 }, { 0, 0, 1 } };
   REQUIRE(sphere.Intersect(ray, 0, 10, rec));
   REQUIRE(rec.t == 1.f);
+  REQUIRE(rec.front_face == false);
   REQUIRE(rec.p == Point(0, 0, 1));
-  REQUIRE(rec.normal == Vec3f(0, 0, 1));
+  REQUIRE(rec.normal == Vec3f(0, 0, -1));
 
   ray = { { 0, 0, 2 }, { 0, 0, 1 } };
   REQUIRE(!sphere.Intersect(ray, 0, 10, rec));
@@ -53,7 +55,8 @@ TEST_CASE("sphere_intersected")
   ray = { { 0, 1, -5 }, { 0, 0, 1 } };
   REQUIRE(sphere.Intersect(ray, 0, 10, rec));
   REQUIRE(rec.t == 5.f);
-  REQUIRE(rec.p == Point(0, 1, -0));
+  REQUIRE(rec.front_face == true);
+  REQUIRE(rec.p == Point(0, 1, 0));
   REQUIRE(rec.normal == Vec3f(0, 1, 0));
 
   ray = { { 0, 2, -5 }, { 0, 0, 1 } };
