@@ -4,7 +4,6 @@ A simple CPU raytracer. It is based on the book "Ray Tracing in One Weekend" by 
 
 Todo List:
 ----------
-- [ ] CI/CD
-- [ ] Typedefs on Doxygen
-- [ ] Code coverage
 - [ ] Continue Tutorial
+- [ ] Code coverage
+- [ ] Typedefs on Doxygen

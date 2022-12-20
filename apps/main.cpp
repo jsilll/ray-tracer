@@ -1,23 +1,18 @@
+#include "scenes.hpp"
 #include "renderer.hpp"
 
 #include <rt/camera.hpp>
-#include <rt/primitives/sphere.hpp>
-#include <rt/scene.hpp>
 
 #include <algorithm>
 #include <iostream>
 
-using rt::Point;
 using rt::Scene;
-using rt::Sphere;
 using rt::Camera;
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 {
   // Setting up the Scene
-  Scene scene;
-  scene.Add(std::make_unique<Sphere>(Point(0, 0, -1), 0.5f));
-  scene.Add(std::make_unique<Sphere>(Point(0, -100.5, -1), 100));
+  Scene scene = scenes::SphereWithGround();
 
   // Defining the Image Dimensions
   constexpr int IMAGE_WIDTH = 1920;

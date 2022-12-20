@@ -11,11 +11,11 @@ TEST_CASE("hit_record_set_normal")
 
   constexpr Ray ray({ 0, 0, 0 }, { 0, 0, 1 });
 
-  rec.set_face_normal(ray, { 0, 0, 1 });
+  rec.SetFaceNormal(ray, { 0, 0, 1 });
   REQUIRE(rec.front_face == false);
   REQUIRE(rec.normal == rt::Vec3f(0, 0, -1));
 
-  rec.set_face_normal(ray, { 0, 0, -1 });
+  rec.SetFaceNormal(ray, { 0, 0, -1 });
   REQUIRE(rec.front_face == true);
   REQUIRE(rec.normal == rt::Vec3f(0, 0, -1));
 }

@@ -26,7 +26,7 @@ struct HitRecord
    * of the surface.
    * @return
    */
-  constexpr void set_face_normal(const Ray &r, const Vec3f &outwards_normal) noexcept
+  constexpr void SetFaceNormal(const Ray &r, const Vec3f &outwards_normal) noexcept
   {
     front_face = r.direction().Dot(outwards_normal) <= 0;
     normal = front_face ? outwards_normal : -outwards_normal;
