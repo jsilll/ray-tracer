@@ -9,22 +9,24 @@ class Camera final
 {
 public:
   /**
-   * @brief Constructs a camera with the given position, look-at point, and up vector.
+   * @brief Constructs a camera with the given position, look-at point, and vertical vector.
    * @param focal_length The focal length of the camera.
    * @param viewport_width The width of the viewport.
    * @param viewport_height The height of the viewport.
    * @param position The position of the camera.
    * @param look_at The point the camera is looking at.
-   * @param up The up vector of the camera.
+   * @param vertical The vertical vector of the camera.
    */
-  [[nodiscard]] constexpr Camera(const float focal_length,
+  [[nodiscard]] Camera(const float focal_length,
     const float viewport_width,
     const float viewport_height,
     const Point &position,
     const Point &look_at,
-    const Vec3f &up) noexcept
+    const Vec3f &vertical) noexcept
     : _focal_length(focal_length), _viewport_width(viewport_width), _viewport_height(viewport_height),
-      _position(position), _look_at(look_at), _up(up)
+      _position(position), _look_at(look_at), _vertical(vertical.Normalized() * viewport_height),
+      _horizontal((look_at - position).Normalized().Cross(vertical.Normalized()) * viewport_width),
+      _lower_left_corner(position + (look_at - position).Normalized() * focal_length - _horizontal / 2 - _vertical / 2)
   {}
 
   /**
@@ -58,10 +60,25 @@ public:
   [[nodiscard]] constexpr auto look_at() const noexcept { return _look_at; }
 
   /**
-   * @brief Returns the up vector of the camera.
+   * @brief Returns the vertical vector of the camera.
    * @return
    */
-  [[nodiscard]] constexpr auto up() const noexcept { return _up; }
+  [[nodiscard]] constexpr auto vertical() const noexcept { return _vertical; }
+
+  /**
+   * @brief Returns the horizontal vector of the camera.
+   * @return
+   */
+  [[nodiscard]] constexpr auto horizontal() const noexcept { return _horizontal; }
+  // TODO: add tests
+
+
+  /**
+   * @brief Returns the ray that passes through the left corner in the viewport.
+   * @return
+   */
+  [[nodiscard]] constexpr auto lower_left_ray() const noexcept { return _lower_left_corner - _position; }
+  // TODO: add tests
 
 private:
   /// @brief The focal length of the camera.
@@ -74,8 +91,12 @@ private:
   Point _position;
   /// @brief The point the camera is looking at.
   Point _look_at;
-  /// @brief The up vector of the camera.
-  Vec3f _up;
+  /// @brief The vertical vector of the camera.
+  Vec3f _vertical;
+  /// @brief The right vector of the camera.
+  Vec3f _horizontal;
+  /// @brief The lower left corner of the viewport.
+  Vec3f _lower_left_corner;
 };
 
 }// namespace rt
