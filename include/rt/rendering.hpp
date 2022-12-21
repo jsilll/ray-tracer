@@ -11,11 +11,10 @@ namespace rt::rendering {
  * @param ray The ray to render.
  * @return
  */
-rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests
+rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray, const float max_depth) noexcept //TODO: add tests
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
-    const float max_depth = 2;
     const float t = std::min(1.f, rec.t / max_depth);
     return { 1 - t, 1 - t, 1 - t };
   } else {

@@ -29,9 +29,8 @@ int main(int argc, char *argv[])
 #ifdef DEBUG
   log(LogLevel::kDebug, "Setting up the scene and camera");
 #endif
-  const auto camera = Camera(
-    1, static_cast<float>(args.width) / static_cast<float>(args.height) * 2, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
-  const auto scene = scenes::SphereWithGround();
+  const auto [scene, camera] =
+    scenes::SphereWithGround(static_cast<float>(args.width) / static_cast<float>(args.height));
 
   // Setting up the Image and Rendered classes
 #ifdef DEBUG
@@ -47,10 +46,13 @@ int main(int argc, char *argv[])
     image = renderer.Render(camera, rt::rendering::RenderNormalMap);
     break;
   case RenderType::kDepthMap:
-    image = renderer.Render(camera, rt::rendering::RenderDepthMap);
+    image = renderer.Render(
+      camera, [&](const auto &s, const auto &r) { return rt::rendering::RenderDepthMap(s, r, args.max_depth); });
     break;
   }
-  log(LogLevel::kInfo, "Finished Rendering.");
+#if DEBUG
+  log(LogLevel::kDebug, "Finished Rendering.");
+#endif
 
   // Saving the Image
   log(LogLevel::kInfo, "Saving Image.");
@@ -60,7 +62,9 @@ int main(int argc, char *argv[])
     log(LogLevel::kError, "Failed to save image!");
     std::exit(EXIT_FAILURE);
   }
-  log(LogLevel::kInfo, "Finished Saving Image.");
+#ifdef DEBUG
+  log(LogLevel::kDebug, "Finished Saving Image.");
+#endif
 
   return EXIT_SUCCESS;
 }

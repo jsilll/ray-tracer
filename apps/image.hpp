@@ -18,13 +18,13 @@ public:
 
   /**
    * @brief Construct a new Image object from another image with move semantics.
-   * @param img
+   * @param img The image to move.
    */
   Image(Image &&img) noexcept : _pixels(std::move(img._pixels)) {}
 
   /**
    * @brief Reassign the image with move semantics.
-   * @param img
+   * @param img The image to move.
    */
   Image &operator=(Image &&img) noexcept
   {
