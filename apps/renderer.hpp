@@ -10,25 +10,6 @@
 #include <execution>
 #include <vector>
 
-/// @brief Types of renderers.
-enum RenderType {
-  /// @brief Renders the albedo of the scene.
-  kAlbedo,
-  /// @brief Renders the final image.
-  kBeauty,
-  /// @brief Renders the depth of the scene.
-  kDepth,
-  /// @brief Renders the normals of the scene.
-  kNormals,
-  /// @brief Renders the emissive materials of the scene.
-  kEmissive,
-  /// @brief Renders the metallic materials of the scene.
-  kMetallic,
-  /// @brief Renders the roughness materials of the scene.
-  kRoughness,
-  //TODO: Refactor this
-};
-
 /// @brief Renders an image.
 class Renderer final
 {
@@ -49,7 +30,31 @@ public:
    * @param camera The camera to use.
    * @return
    */
-  [[nodiscard]] Image Render(const rt::Camera &camera) const noexcept;
+   template <typename RenderFunc>
+  [[nodiscard]] Image Render(const rt::Camera &camera, RenderFunc render_func) const noexcept
+  {
+    const auto vertical = camera.vertical();
+    const auto horizontal = camera.horizontal();
+    const auto width_max = static_cast<float>(_image_width - 1);
+    const auto height_max = static_cast<float>(_image_height - 1);
+    const auto direction_offset = camera.lower_left_ray();
+    auto pixels = std::vector(_image_width, std::vector<rt::Color>(_image_height, { 0, 0, 0 }));
+
+    std::transform(std::execution::par_unseq, pixels.begin(), pixels.end(), pixels.begin(), [&](auto &col) {
+           const auto i = std::distance(pixels.data(), &col);
+           std::transform(std::execution::par_unseq, col.begin(), col.end(), col.begin(), [&](auto &pixel) {
+                  const auto j = std::distance(col.data(), &pixel);
+                  const auto h = static_cast<float>(i) / width_max;
+                  const auto v = static_cast<float>(j) / height_max;
+                  const auto direction = h * horizontal + v * vertical + direction_offset;
+                  const auto ray = rt::Ray(camera.position(), direction);
+                  return render_func(_scene, ray);
+           });
+           return col;
+    });
+
+    return Image(std::move(pixels));
+  }
 
 
 private:

@@ -13,7 +13,7 @@ constexpr auto kInf = std::numeric_limits<float>::infinity();
 
 /**
  * @brief Converts degrees to radians.
- * @param degrees
+ * @param degrees The degrees to convert.
  * @return
  */
 constexpr float DegreesToRadians(float degrees) { return degrees * kPi / 180.f; } //TODO: add tests

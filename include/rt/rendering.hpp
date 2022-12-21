@@ -3,15 +3,15 @@
 #include <rt/scene.hpp>
 #include <rt/utils.hpp>
 
-namespace rt {
+namespace rt::rendering {
 
 /**
  * @brief Computes the color according to the depth at the ray intersection.
- * @param scene
- * @param ray
+ * @param scene The scene to render.
+ * @param ray The ray to render.
  * @return
  */
-rt::Color RenderDepth(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests
+rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
@@ -25,11 +25,11 @@ rt::Color RenderDepth(const rt::Scene &scene, const rt::Ray &ray) noexcept //TOD
 
 /**
  * @brief Computes the color according to the normal at the ray intersection.
- * @param scene
- * @param ray
+ * @param scene The scene to render.
+ * @param ray The ray to render.
  * @return
  */
-rt::Color RenderNormal(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests
+rt::Color RenderNormalMap(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests and add this somewhere in the code
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {

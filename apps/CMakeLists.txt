@@ -1,6 +1,6 @@
 # -- Executable --
 
-add_executable(raytracer main.cpp image.cpp renderer.cpp)
+add_executable(raytracer main.cpp image.cpp)
 
 target_link_libraries(raytracer PUBLIC rt)
 
@@ -20,6 +20,7 @@ endif ()
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_options(raytracer PUBLIC -g -O0)
+    target_compile_definitions(raytracer PUBLIC DEBUG)
 elseif (CMAKE_BUILD_TYPE MATCHES Release)
     target_compile_options(raytracer PUBLIC -O3 -march=native)
 endif ()

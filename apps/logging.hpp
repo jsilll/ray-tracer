@@ -6,7 +6,7 @@
 #include <iostream>
 
 /// @brief The different levels of logging.
-enum class LogLevel { Debug, Info, Warning, Error };
+enum class LogLevel { kDebug, kInfo, kWarning, kError };
 
 /// @brief Log Level Prefixes.
 const std::string LOG_LEVEL_PREFIXES[] = {
@@ -24,10 +24,9 @@ const std::string LOG_LEVEL_PREFIXES[] = {
 void log(LogLevel level, const std::string &message)
 {
   // Get the current time
-  auto now = std::chrono::system_clock::now();
-  auto now_c = std::chrono::system_clock::to_time_t(now);
-  auto now_tm = *std::localtime(&now_c);
-
+  const auto now = std::chrono::system_clock::now();
+  const auto now_c = std::chrono::system_clock::to_time_t(now);
+  const auto now_tm = *std::localtime(&now_c);
   // Format the time and log the message
   std::cout << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S") << " ";
   std::cout << LOG_LEVEL_PREFIXES[static_cast<int>(level)] << message << std::endl;
