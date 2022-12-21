@@ -8,8 +8,8 @@ It consists in a raytracing library and a simple application that uses the libra
 Images
 ------
 
-![Simple Scene Depth](https://raw.githubusercontent.com/jsilll/raytracer/master/images/raytracing_in_one_weekend/scene_depth.png)
-![Simple Scene Normals](https://raw.githubusercontent.com/jsilll/raytracer/master/images/raytracing_in_one_weekend/scene_normals.png)
+![Simple Scene Depth]([https://raw.githubusercontent.com/jsilll/raytracer/master/images/raytracing_in_one_weekend/scene_depth.png](https://raw.githubusercontent.com/jsilll/raytracer/main/images/raytracing_in_one_weekend/scene_depth.png?token=GHSAT0AAAAAAB4JP5QOGM6LSWGPN6QOTAEMY5DUJEQ))
+![Simple Scene Normals]([https://raw.githubusercontent.com/jsilll/raytracer/master/images/raytracing_in_one_weekend/scene_normals.png](https://raw.githubusercontent.com/jsilll/raytracer/main/images/raytracing_in_one_weekend/scene_normals.png?token=GHSAT0AAAAAAB4JP5QOXG2OBOSDP2OBLC7GY5DUJOA))
 
 Roadmap:
 ----------
