@@ -26,6 +26,7 @@ enum RenderType {
   kMetallic,
   /// @brief Renders the roughness materials of the scene.
   kRoughness,
+  //TODO: Refactor this
 };
 
 /// @brief Renders an image.

@@ -11,7 +11,7 @@ namespace rt {
  * @param ray
  * @return
  */
-rt::Color RenderDepth(const rt::Scene &scene, const rt::Ray &ray) noexcept
+rt::Color RenderDepth(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
@@ -22,7 +22,6 @@ rt::Color RenderDepth(const rt::Scene &scene, const rt::Ray &ray) noexcept
     return { 0, 0, 0 };
   }
 }
-// TODO: add tests
 
 /**
  * @brief Computes the color according to the normal at the ray intersection.
@@ -30,7 +29,7 @@ rt::Color RenderDepth(const rt::Scene &scene, const rt::Ray &ray) noexcept
  * @param ray
  * @return
  */
-rt::Color RenderNormal(const rt::Scene &scene, const rt::Ray &ray) noexcept
+rt::Color RenderNormal(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
@@ -39,6 +38,5 @@ rt::Color RenderNormal(const rt::Scene &scene, const rt::Ray &ray) noexcept
     return { 0, 0, 0 };
   }
 }
-// TODO: add tests
 
 }// namespace rt

@@ -16,6 +16,6 @@ constexpr auto kInf = std::numeric_limits<float>::infinity();
  * @param degrees
  * @return
  */
-constexpr float DegreesToRadians(float degrees) { return degrees * kPi / 180.f; }
+constexpr float DegreesToRadians(float degrees) { return degrees * kPi / 180.f; } //TODO: add tests
 
 }// namespace rt::utils
