@@ -26,46 +26,52 @@ int main(int argc, char *argv[])
 
   // Setting up the scene and camera
 #ifdef DEBUG
-  log(LogLevel::kDebug, "Setting up the scene and camera");
+  log(LogLevel::kDebug, "Setting up the Scene and Camera");
 #endif
   const auto [scene, camera] =
     scenes::SphereWithGround(static_cast<float>(args.width) / static_cast<float>(args.height));
 
   // Setting up the Image and Rendered classes
 #ifdef DEBUG
-  log(LogLevel::kDebug, "Setting up the Image and Renderer classes.");
+  log(LogLevel::kDebug, "Setting up the Image and Renderer");
 #endif
   Image image;
-  const auto renderer = Renderer(args.width, args.height, scene);
+  const auto samples = static_cast<int>(args.samples);
+  const auto renderer = Renderer(args.width, args.height, samples, scene);
 
   // Rendering
-  log(LogLevel::kInfo, "Rendering Image.");
+  log(LogLevel::kInfo, "Rendering Image");
   switch (args.render_type) {
   case RenderType::kNormalMap:
-    image = renderer.Render(camera, rt::rendering::RenderNormalMap);
+    image = renderer.Render(camera, rt::rendering::RenderNormalMap, args.threads);
     break;
   case RenderType::kDepthMap:
     image = renderer.Render(
-      camera, [&](const auto &s, const auto &r) { return rt::rendering::RenderDepthMap(s, r, args.max_depth); });
+      camera,
+      [&](const auto &s, const auto &r) { return rt::rendering::RenderDepthMap(s, r, args.max_depth); },
+      args.threads);
     break;
   case RenderType::kBeauty:
-    image = renderer.Render(camera, rt::rendering::RenderBeauty);
+    image = renderer.Render(
+      camera,
+      [&](const auto &s, const auto &r) { return rt::rendering::RenderBeauty(s, r, args.bounces); },
+      args.threads);
     break;
   }
 #if DEBUG
-  log(LogLevel::kDebug, "Finished Rendering.");
+  log(LogLevel::kDebug, "Finished Rendering");
 #endif
 
   // Saving the Image
-  log(LogLevel::kInfo, "Saving Image.");
+  log(LogLevel::kInfo, "Saving Image");
   try {
     image.SaveAsPPM(args.output);
   } catch (const std::exception &e) {
-    log(LogLevel::kError, "Failed to save image!");
+    log(LogLevel::kError, "Failed to save image");
     return EXIT_FAILURE;
   }
 #ifdef DEBUG
-  log(LogLevel::kDebug, "Finished Saving Image.");
+  log(LogLevel::kDebug, "Finished Saving Image");
 #endif
 
   return EXIT_SUCCESS;

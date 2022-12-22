@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/point.hpp>
+#include <rt/ray.hpp>
 
 namespace rt {
 
@@ -69,13 +70,25 @@ public:
    * @brief Returns the horizontal vector of the camera.
    * @return
    */
-  [[nodiscard]] constexpr auto horizontal() const noexcept { return _horizontal; } // TODO: add tests
+  [[nodiscard]] constexpr auto horizontal() const noexcept { return _horizontal; }// TODO: add tests
 
   /**
    * @brief Returns the ray that passes through the left corner in the viewport.
    * @return
    */
-  [[nodiscard]] constexpr auto lower_left_ray() const noexcept { return _lower_left_corner - _position; } // TODO: add tests
+  [[nodiscard]] constexpr auto lower_left_ray() const noexcept
+  {
+    return _lower_left_corner - _position;
+  }// TODO: add tests
+
+  /**
+   * @brief Returns the ray that passes through the left corner in the viewport.
+   * @return
+   */
+  [[nodiscard]] constexpr auto Ray(float h, float v) const noexcept
+  {
+    return rt::Ray(_position, _lower_left_corner + h * _horizontal + v * _vertical - _position);
+  }
 
 private:
   /// @brief The focal length of the camera.

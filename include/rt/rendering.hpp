@@ -12,11 +12,14 @@ namespace rt::rendering {
  * @param ray The ray to render.
  * @return
  */
-rt::Color RenderBeauty(const rt::Scene &scene, const rt::Ray &ray) noexcept// TODO: add tests
+rt::Color RenderBeauty(const rt::Scene &scene, const rt::Ray &ray, int bounces) noexcept
 {
+  // TODO: add tests, theres a BUG here!!!
   rt::HitRecord rec;
+  if (bounces <= 0) return { 0, 0, 0 };
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
-    return rt::color::FromNormal(rec.normal);
+    Point target = rec.p + rec.normal + Vec3f::RandomWithinUnitSphere();
+    return 0.5f * RenderBeauty(scene, { rec.p, target - rec.p }, bounces - 1);
   } else {
     const auto unit_direction = ray.direction().Normalized();
     const auto t = 0.5f * (unit_direction.y() + 1.0f);

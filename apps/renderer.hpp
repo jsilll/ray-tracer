@@ -1,6 +1,7 @@
 #pragma once
 
 #include <image.hpp>
+#include <thread_pool.hpp>
 
 #include <rt/camera.hpp>
 #include <rt/scene.hpp>
@@ -8,6 +9,7 @@
 
 #include <algorithm>
 #include <execution>
+#include <thread>
 #include <vector>
 
 /// @brief Renders an image.
@@ -21,8 +23,9 @@ public:
    */
   [[nodiscard]] constexpr Renderer(const std::size_t image_width,
     const std::size_t image_height,
+    const int samples_per_pixel,
     const rt::Scene &scene) noexcept
-    : _image_width(image_width), _image_height(image_height), _scene(scene)
+    : _image_width(image_width), _image_height(image_height), _samples_per_pixel(samples_per_pixel), _scene(scene)
   {}
 
   /**
@@ -31,37 +34,40 @@ public:
    * @return
    */
   template<typename RenderFunc>
-  [[nodiscard]] Image Render(const rt::Camera &camera, RenderFunc render_func) const noexcept
+  [[nodiscard]] Image Render(const rt::Camera &camera, RenderFunc render_func, unsigned int threads) const noexcept
   {
-    const auto vertical = camera.vertical();
-    const auto horizontal = camera.horizontal();
+    auto pixels = std::vector(_image_width, std::vector(_image_height, rt::Color(0, 0, 0)));
+
     const auto width_max = static_cast<float>(_image_width - 1);
     const auto height_max = static_cast<float>(_image_height - 1);
-    const auto direction_offset = camera.lower_left_ray();
-    auto pixels = std::vector(_image_width, std::vector<rt::Color>(_image_height, { 0, 0, 0 }));
 
-    std::transform(std::execution::par_unseq, pixels.begin(), pixels.end(), pixels.begin(), [&](auto &col) {
-      const auto i = std::distance(pixels.data(), &col);
-      std::transform(std::execution::par_unseq, col.begin(), col.end(), col.begin(), [&](auto &pixel) {
-        const auto j = std::distance(col.data(), &pixel);
-        const auto h = static_cast<float>(i) / width_max;
-        const auto v = static_cast<float>(j) / height_max;
-        const auto direction = h * horizontal + v * vertical + direction_offset;
-        const auto ray = rt::Ray(camera.position(), direction);
-        return render_func(_scene, ray);
-      });
-      return col;
-    });
+    ThreadPool pool{ threads };
+    std::vector<std::future<void>> futures;
+    for (std::size_t col = 0; col < _image_width; ++col) {
+      futures.emplace_back(pool.enqueue([&, col] {
+        for (std::size_t row = 0; row < _image_height; ++row) {
+          for (int s = 0; s < _samples_per_pixel; ++s) {
+            const auto u = (static_cast<float>(col) + rt::utils::RandomFloat()) / width_max;
+            const auto v = (static_cast<float>(row) + rt::utils::RandomFloat()) / height_max;
+            pixels[col][row] += render_func(_scene, camera.Ray(u, v));
+          }
+          pixels[col][row] /= static_cast<float>(_samples_per_pixel);
+        }
+      }));
+    }
+
+    for (auto &future : futures) { future.get(); }
 
     return Image(std::move(pixels));
   }
-
 
 private:
   /// @brief The width of the image.
   std::size_t _image_width;
   /// @brief The height of the image.
   std::size_t _image_height;
+  /// @brief The samples per pixel.
+  int _samples_per_pixel;
   /// @brief The scene to render.
   const rt::Scene &_scene;
 };

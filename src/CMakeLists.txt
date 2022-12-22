@@ -13,7 +13,7 @@ endif ()
 
 # -- Release and Debug Flags --
 if (CMAKE_BUILD_TYPE MATCHES Release)
-    target_compile_options(rt PRIVATE -O3 -march=native -mtune=native -fopenmp)
+    target_compile_options(rt PRIVATE -O3 -march=native)
 elseif (CMAKE_BUILD_TYPE STREQUAL "ReleaseCrossPlatform")
     target_compile_options(raytracer PRIVATE -O3 -march=x86-64 -mtune=x86-64 -fopenmp)
 elseif (CMAKE_BUILD_TYPE MATCHES Debug)

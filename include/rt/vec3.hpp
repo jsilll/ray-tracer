@@ -1,5 +1,7 @@
 #pragma once
 
+#include <rt/utils.hpp>
+
 #include <cmath>
 #include <iostream>
 #include <type_traits>
@@ -112,6 +114,17 @@ public:
   }
 
   /**
+   * @brief Returns the subtraction of this vector with a scalar.
+   * @param u The vector.
+   * @param t The scalar.
+   * @return
+   */
+  [[nodiscard]] friend constexpr auto operator-(const Vec3 &u, const T t) noexcept
+  {
+    return Vec3(u._e[0] - t, u._e[1] - t, u._e[2] - t);
+  }
+
+  /**
    * @brief Sums two vectors.
    * @param u The first vector.
    * @param v The second vector.
@@ -219,6 +232,15 @@ public:
   friend auto &operator<<(std::ostream &out, const Vec3 &v) noexcept
   {
     return out << "Vec3{" << v._e[0] << ", " << v._e[1] << ", " << v._e[2] << '}';
+  }
+
+  /**
+   * @brief Returns a random vector within unit sphere.
+   * @return
+   */
+  [[nodiscard]] static Vec3<float> RandomWithinUnitSphere() noexcept
+  {
+    return 2.0f * Vec3(rt::utils::RandomFloat(), rt::utils::RandomFloat(), rt::utils::RandomFloat()) - 1.f;
   }
 
 private:
