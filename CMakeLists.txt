@@ -1,41 +1,46 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21)
+
+# -- Enable All Warnings and Sanitizers --
+set(ENABLE_DEVELOPER_MODE TRUE  CACHE BOOL "Enable 'developer mode'")
 
 # -- Project Setup --
-
-set(CMAKE_CXX_STANDARD 23)
-
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
-set(CMAKE_CXX_STANDARD_REQUIRED on)
-
-set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
-
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT ON)
 project(Raytracer
         VERSION 0.0.1
         DESCRIPTION "Raytracer"
         HOMEPAGE_URL "https://github.com/jsilll/raytracer"
         LANGUAGES CXX)
 
-# -- Enabling Testing with Catch2
+# -- When Building Standalone --
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    # -- Testing Only Available When Building Standalone --
+    include(CTest)
 
-enable_testing()
+    # -- Ensure that the -std=c++xx flag is used --
+    set(CMAKE_CXX_EXTENSIONS OFF)
 
-Include(FetchContent)
+    # -- Support for folders in IDEs --
+    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG v3.0.1 # or a later release
-)
-
-FetchContent_MakeAvailable(Catch2)
+    # -- Docs only available when building Standalone --
+    find_package(Doxygen)
+    if (Doxygen_FOUND)
+        add_subdirectory(docs)
+    else ()
+        message(STATUS "Doxygen not found, not building docs")
+    endif ()
+endif ()
 
 # -- Library --
-
 add_subdirectory(src)
 
-add_subdirectory(tests)
-
 # -- Executable --
-
 add_subdirectory(apps)
+
+# -- Testing only available when building Standalone --
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    add_subdirectory(tests)
+endif ()

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <limits>
 
+/// @brief Aggregates the parameters general utilities for the library.
 namespace rt::utils {
 
 /// @brief Pi constant.

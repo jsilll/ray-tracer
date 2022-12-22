@@ -62,7 +62,7 @@ Args GetArgs(const int argc, char *argv[])
   args.samples = std::stoul(args_parser.GetValue("samples"));
   args.bounces = std::stoul(args_parser.GetValue("bounces"));
 
-  // Parsing the render type argument
+  // Parsing the render type argument, enum conversion
   const auto render_type_str = args_parser.GetValue("render_type");
   const auto render_type_it = str_to_render_type.find(render_type_str);
   if (render_type_it == str_to_render_type.end()) {
@@ -77,8 +77,7 @@ Args GetArgs(const int argc, char *argv[])
   } catch (const std::runtime_error &e) {
     if (args.render_type == RenderType::kDepthMap) {
       log(LogLevel::kWarning,
-        "'max_depth' argument missing. It's recommended to set this value when needed when 'render_type' is set to "
-        "'depth_map'. Using default value of 1.");
+        "'max_depth' argument missing, using default value of 1.");
     }
   }
 

@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     image.SaveAsPPM(args.output);
   } catch (const std::exception &e) {
     log(LogLevel::kError, "Failed to save image!");
-    std::exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 #ifdef DEBUG
   log(LogLevel::kDebug, "Finished Saving Image.");

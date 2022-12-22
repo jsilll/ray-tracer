@@ -3,6 +3,7 @@
 #include <rt/scene.hpp>
 #include <rt/utils.hpp>
 
+/// @brief Aggregates the rendering utilities for the library.
 namespace rt::rendering {
 
 /**

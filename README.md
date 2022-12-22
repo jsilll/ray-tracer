@@ -57,6 +57,18 @@ There are a few optional arguments that can be passed to the application.
 
 This argument is useful when `--render_type=depth_map` is set. The `max_depth` argument is used to set the maximum depth for the depth map. The default value is 1.
 
+Benchmarks
+----------
+
+The following benchmarks were run on a Intel Core i7-7700K CPU @ 4.20GHz with 16GB of RAM.
+
+| Benchmark | Time |
+|-----------|------|
+| 1         | 0.00 |
+| 2         | 0.00 |
+| 3         | 0.00 |
+| 4         | 0.00 |
+
 Contributing
 ------------
 

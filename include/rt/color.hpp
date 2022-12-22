@@ -7,6 +7,7 @@ namespace rt {
 /// @brief A color in RGB space.
 using Color = Vec3f;
 
+/// @brief Aggregates the color utilities for the library.
 namespace color {
 
   /**
