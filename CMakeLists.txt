@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
 
-# -- Enable All Warnings and Sanitizers --
-set(ENABLE_DEVELOPER_MODE TRUE  CACHE BOOL "Enable 'developer mode'")
-
 # -- Project Setup --
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -13,6 +10,9 @@ project(Raytracer
         DESCRIPTION "Raytracer"
         HOMEPAGE_URL "https://github.com/jsilll/raytracer"
         LANGUAGES CXX)
+
+# -- CMake Modules --
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # -- When Building Standalone --
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
