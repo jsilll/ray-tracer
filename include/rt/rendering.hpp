@@ -7,12 +7,30 @@
 namespace rt::rendering {
 
 /**
+ * @brief Computes the color of a ray of light.
+ * @param scene The scene to render.
+ * @param ray The ray to render.
+ * @return
+ */
+rt::Color RenderBeauty(const rt::Scene &scene, const rt::Ray &ray) noexcept// TODO: add tests
+{
+  rt::HitRecord rec;
+  if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
+    return rt::color::FromNormal(rec.normal);
+  } else {
+    const auto unit_direction = ray.direction().Normalized();
+    const auto t = 0.5f * (unit_direction.y() + 1.0f);
+    return (1.0f - t) * rt::Color(1.0f, 1.0f, 1.0f) + t * rt::Color(0.5f, 0.7f, 1.0f);
+  }
+}
+
+/**
  * @brief Computes the color according to the depth at the ray intersection.
  * @param scene The scene to render.
  * @param ray The ray to render.
  * @return
  */
-rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray, const float max_depth) noexcept //TODO: add tests
+rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray, const float max_depth) noexcept// TODO: add tests
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
@@ -29,7 +47,7 @@ rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray, const float
  * @param ray The ray to render.
  * @return
  */
-rt::Color RenderNormalMap(const rt::Scene &scene, const rt::Ray &ray) noexcept //TODO: add tests and add this somewhere in the code
+rt::Color RenderNormalMap(const rt::Scene &scene, const rt::Ray &ray) noexcept
 {
   rt::HitRecord rec;
   if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
@@ -39,4 +57,4 @@ rt::Color RenderNormalMap(const rt::Scene &scene, const rt::Ray &ray) noexcept /
   }
 }
 
-}// namespace rt
+}// namespace rt::rendering

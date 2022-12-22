@@ -1,8 +1,7 @@
-#include "main.hpp"
-#include "renderer.hpp"
-#include "scenes.hpp"
+#include <main.hpp>
+#include <renderer.hpp>
+#include <scenes.hpp>
 
-#include <rt/camera.hpp>
 #include <rt/rendering.hpp>
 
 #include <algorithm>
@@ -48,6 +47,9 @@ int main(int argc, char *argv[])
   case RenderType::kDepthMap:
     image = renderer.Render(
       camera, [&](const auto &s, const auto &r) { return rt::rendering::RenderDepthMap(s, r, args.max_depth); });
+    break;
+  case RenderType::kBeauty:
+    image = renderer.Render(camera, rt::rendering::RenderBeauty);
     break;
   }
 #if DEBUG

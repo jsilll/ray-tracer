@@ -11,13 +11,19 @@ project(Raytracer
         HOMEPAGE_URL "https://github.com/jsilll/raytracer"
         LANGUAGES CXX)
 
-# -- CMake Modules --
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+# -- Baseline Flags --
+if (MSVC)
+    add_compile_options(/W4 /w14640)
+else()
+    add_compile_options(
+            -Wall -Wextra -Wshadow -Wunused -Wnon-virtual-dtor -pedantic)
+endif()
 
 # -- When Building Standalone --
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # -- Testing Only Available When Building Standalone --
     include(CTest)
+    enable_testing()
 
     # -- Ensure that the -std=c++xx flag is used --
     set(CMAKE_CXX_EXTENSIONS OFF)
@@ -30,7 +36,7 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     if (Doxygen_FOUND)
         add_subdirectory(docs)
     else ()
-        message(STATUS "Doxygen not found, not building docs")
+        message(STATUS "Doxygen not found, not able to build docs")
     endif ()
 endif ()
 

@@ -1,24 +1,29 @@
 #pragma once
 
-#include "args_parser.hpp"
-#include "logging.hpp"
+#include <clap.hpp>
+#include <logging.hpp>
 
 #include <string>
 #include <unordered_map>
 
 /// @brief The possible rendering types.
 enum class RenderType {
+  kBeauty,
   kNormalMap,
   kDepthMap,
 };
 
 /// @brief Converts a string to a RenderType.
-const std::unordered_map<std::string, RenderType> str_to_render_type = { { "normal_map", RenderType::kNormalMap },
-  { "depth_map", RenderType::kDepthMap } };
+const std::unordered_map<std::string, RenderType> str_to_render_type = {
+  { "normal_map", RenderType::kNormalMap },
+  { "depth_map", RenderType::kDepthMap },
+  { "beauty", RenderType::kBeauty } };
 
 /// @brief Converts a RenderType to a string.
-const std::unordered_map<RenderType, std::string> render_type_to_str = { { RenderType::kNormalMap, "normal_map" },
-  { RenderType::kDepthMap, "depth_map" } };
+const std::unordered_map<RenderType, std::string> render_type_to_str = {
+  { RenderType::kNormalMap, "normal_map" },
+  { RenderType::kDepthMap, "depth_map" },
+  { RenderType::kBeauty, "beauty" } };
 
 /// @brief The arguments for the program.
 struct Args
@@ -51,19 +56,19 @@ struct Args
 Args GetArgs(const int argc, char *argv[])
 {
   Args args;
-  ArgsParser args_parser;
-  args_parser.ParseArgs(argc, argv);
+  Clap args_parser;
+  args_parser.Parse(argc, argv);
 
   // Parsing required arguments
-  args.output = args_parser.GetValue("output");
-  args.seed = std::stoul(args_parser.GetValue("seed"));
-  args.width = std::stoul(args_parser.GetValue("width"));
-  args.height = std::stoul(args_parser.GetValue("height"));
-  args.samples = std::stoul(args_parser.GetValue("samples"));
-  args.bounces = std::stoul(args_parser.GetValue("bounces"));
+  args.output = args_parser.Value("output");
+  args.seed = std::stoul(args_parser.Value("seed"));
+  args.width = std::stoul(args_parser.Value("width"));
+  args.height = std::stoul(args_parser.Value("height"));
+  args.samples = std::stoul(args_parser.Value("samples"));
+  args.bounces = std::stoul(args_parser.Value("bounces"));
 
   // Parsing the render type argument, enum conversion
-  const auto render_type_str = args_parser.GetValue("render_type");
+  const auto render_type_str = args_parser.Value("render_type");
   const auto render_type_it = str_to_render_type.find(render_type_str);
   if (render_type_it == str_to_render_type.end()) {
     throw std::runtime_error("Invalid 'render_type' argument.");
@@ -73,11 +78,10 @@ Args GetArgs(const int argc, char *argv[])
 
   // Parsing optional arguments
   try {
-    args.max_depth = std::stof(args_parser.GetValue("max_depth"));
+    args.max_depth = std::stof(args_parser.Value("max_depth"));
   } catch (const std::runtime_error &e) {
     if (args.render_type == RenderType::kDepthMap) {
-      log(LogLevel::kWarning,
-        "'max_depth' argument missing, using default value of 1.");
+      log(LogLevel::kWarning, "'max_depth' argument missing, using default value of 1.");
     }
   }
 

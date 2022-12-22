@@ -1,6 +1,6 @@
 #pragma once
 
-#include "image.hpp"
+#include <image.hpp>
 
 #include <rt/camera.hpp>
 #include <rt/scene.hpp>

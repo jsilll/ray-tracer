@@ -1,8 +1,8 @@
-#include "args_parser.hpp"
+#include <clap.hpp>
 
 #include <string_view>
 
-void ArgsParser::ParseArgs(int argc, char *argv[]) noexcept
+void Clap::Parse(int argc, char *argv[]) noexcept
 {
   for (int i = 1; i < argc; i++) {
     std::string_view arg(argv[i]);
