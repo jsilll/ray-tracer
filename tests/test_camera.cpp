@@ -7,19 +7,19 @@ using rt::Camera;
 TEST_CASE("camera_focal_length")
 {
   const auto camera = Camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
-  REQUIRE(camera.focal_length() == 1.f);
+  REQUIRE(camera.focal_length() == 1);
 }
 
 TEST_CASE("camera_viewport_width")
 {
   const auto camera = Camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
-  REQUIRE(camera.viewport_width() == 3.f);
+  REQUIRE(camera.viewport_width() == 3);
 }
 
 TEST_CASE("camera_viewport_height")
 {
   const auto camera = Camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
-  REQUIRE(camera.viewport_height() == 2.f);
+  REQUIRE(camera.viewport_height() == 2);
 }
 
 TEST_CASE("camera_position")
@@ -37,5 +37,23 @@ TEST_CASE("camera_look_at")
 TEST_CASE("camera_up")
 {
   const auto camera = Camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
-  REQUIRE(camera.vertical() == rt::Vec3f(0, 2, 0));
+  REQUIRE(camera.vertical() == rt::Vec3(0, 2, 0));
+}
+
+TEST_CASE("camera_horizontal")
+{
+  const auto camera = Camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
+  REQUIRE(camera.horizontal() == rt::Vec3(3, 0, 0));
+}
+
+TEST_CASE("camera_ray")
+{
+  const auto camera = Camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
+  auto ray = camera.Ray(0, 0);
+  REQUIRE(ray.origin() == rt::Point(0, 0, 0));
+  REQUIRE(ray.direction() == rt::Vec3(-1.5, -1, -1));
+
+  ray = camera.Ray(1, 1);
+  REQUIRE(ray.origin() == rt::Point(0, 0, 0));
+  REQUIRE(ray.direction() == rt::Vec3(1.5, 1, -1));
 }

@@ -18,12 +18,12 @@ public:
    * @param look_at The point the camera is looking at.
    * @param vertical The vertical vector of the camera.
    */
-  [[nodiscard]] Camera(const float focal_length,
-    const float viewport_width,
-    const float viewport_height,
+  [[nodiscard]] Camera(const double focal_length,
+    const double viewport_width,
+    const double viewport_height,
     const Point &position,
     const Point &look_at,
-    const Vec3f &vertical) noexcept
+    const Vec3 &vertical) noexcept
     : _focal_length(focal_length), _viewport_width(viewport_width), _viewport_height(viewport_height),
       _position(position), _look_at(look_at), _vertical(vertical.Normalized() * viewport_height),
       _horizontal((look_at - position).Normalized().Cross(vertical.Normalized()) * viewport_width),
@@ -76,37 +76,28 @@ public:
    * @brief Returns the ray that passes through the left corner in the viewport.
    * @return
    */
-  [[nodiscard]] constexpr auto lower_left_ray() const noexcept
-  {
-    return _lower_left_corner - _position;
-  }// TODO: add tests
-
-  /**
-   * @brief Returns the ray that passes through the left corner in the viewport.
-   * @return
-   */
-  [[nodiscard]] constexpr auto Ray(float h, float v) const noexcept
+  [[nodiscard]] constexpr auto Ray(double h, double v) const noexcept
   {
     return rt::Ray(_position, _lower_left_corner + h * _horizontal + v * _vertical - _position);
   }
 
 private:
   /// @brief The focal length of the camera.
-  float _focal_length;
+  double _focal_length;
   /// @brief The width of the viewport.
-  float _viewport_width;
+  double _viewport_width;
   /// @brief The height of the viewport.
-  float _viewport_height;
+  double _viewport_height;
   /// @brief The position of the camera.
   Point _position;
   /// @brief The point the camera is looking at.
   Point _look_at;
   /// @brief The vertical vector of the camera.
-  Vec3f _vertical;
+  Vec3 _vertical;
   /// @brief The right vector of the camera.
-  Vec3f _horizontal;
+  Vec3 _horizontal;
   /// @brief The lower left corner of the viewport.
-  Vec3f _lower_left_corner;
+  Vec3 _lower_left_corner;
 };
 
 }// namespace rt

@@ -1,14 +1,14 @@
 #pragma once
 
+#include <rt/object3d.hpp>
 #include <rt/point.hpp>
 #include <rt/ray.hpp>
-#include <rt/surface.hpp>
 #include <rt/vec3.hpp>
 
 namespace rt {
 
 /// @brief A sphere in 3D space.
-class Sphere final : public Surface
+class Sphere final : public Object3D
 {
 public:
   /**
@@ -16,7 +16,7 @@ public:
    * @param center The center of the sphere.
    * @param radius The radius of the sphere.
    */
-  [[nodiscard]] constexpr Sphere(const Point &center, const float radius) noexcept : _center(center), _radius(radius) {}
+  [[nodiscard]] constexpr Sphere(const Point &center, const double radius) noexcept : _center(center), _radius(radius) {}
 
   /**
    * @brief Returns the center of the sphere.
@@ -36,13 +36,13 @@ public:
    */
   [[nodiscard]] constexpr auto Radius2() const noexcept { return _radius * _radius; }
 
-  [[nodiscard]] bool Intersect(const Ray &ray, float t_min, float t_max, HitRecord &rec) const noexcept override;
+  [[nodiscard]] bool Intersect(const Ray &ray, double t_min, double t_max, HitRecord &rec) const noexcept override;
 
 private:
   /// @brief The center of the sphere.
   Point _center;
   /// @brief The radius of the sphere.
-  float _radius;
+  double _radius;
 };
 
 }// namespace rt

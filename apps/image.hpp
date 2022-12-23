@@ -8,6 +8,9 @@
 class Image final
 {
 public:
+  /**
+   * @brief Constructs an empty image.
+   */
   Image() = default;
 
   /**
@@ -35,7 +38,7 @@ public:
   /// @brief Disable copy constructor.
   Image(Image &) = delete;
 
-  /// @brief Disable copy constructor.
+  /// @brief Disable copy assignment.
   Image &operator=(Image &) = delete;
 
   /**

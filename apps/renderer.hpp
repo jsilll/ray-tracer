@@ -36,28 +36,35 @@ public:
   template<typename RenderFunc>
   [[nodiscard]] Image Render(const rt::Camera &camera, RenderFunc render_func, unsigned int threads) const noexcept
   {
+    // Create the image
     auto pixels = std::vector(_image_width, std::vector(_image_height, rt::Color(0, 0, 0)));
 
-    const auto width_max = static_cast<float>(_image_width - 1);
-    const auto height_max = static_cast<float>(_image_height - 1);
+    // Pre-computing the max image width and height
+    const auto width_max = static_cast<double>(_image_width - 1);
+    const auto height_max = static_cast<double>(_image_height - 1);
 
+    // Create the thread pool
     ThreadPool pool{ threads };
     std::vector<std::future<void>> futures;
+
+    // Render the image
     for (std::size_t col = 0; col < _image_width; ++col) {
-      futures.emplace_back(pool.enqueue([&, col] {
+      futures.emplace_back(pool.Enqueue([&, col] {
         for (std::size_t row = 0; row < _image_height; ++row) {
           for (int s = 0; s < _samples_per_pixel; ++s) {
-            const auto u = (static_cast<float>(col) + rt::utils::RandomFloat()) / width_max;
-            const auto v = (static_cast<float>(row) + rt::utils::RandomFloat()) / height_max;
+            const auto u = (static_cast<double>(col) + rt::utils::RandomDouble()) / width_max;
+            const auto v = (static_cast<double>(row) + rt::utils::RandomDouble()) / height_max;
             pixels[col][row] += render_func(_scene, camera.Ray(u, v));
           }
-          pixels[col][row] /= static_cast<float>(_samples_per_pixel);
+          pixels[col][row] /= static_cast<double>(_samples_per_pixel);
         }
       }));
     }
 
+    // Wait for all the futures to complete
     for (auto &future : futures) { future.get(); }
 
+    // Pass the pixels to the image
     return Image(std::move(pixels));
   }
 

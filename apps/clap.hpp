@@ -9,7 +9,8 @@ class Clap final
 {
 public:
   /**
-   * @brief Parses the command line arguments.
+   * @brief Parses the command line arguments in long form.
+   * Example: --width=1920 --height=1080 ...
    * @param argc The number of arguments.
    * @param argv The arguments.
    * @return

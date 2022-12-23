@@ -14,7 +14,7 @@ public:
    * @param origin The origin of the ray.
    * @param direction The direction of the ray.
    */
-  [[nodiscard]] constexpr Ray(const Point &origin, const Vec3f &direction) noexcept
+  [[nodiscard]] constexpr Ray(const Point &origin, const Vec3 &direction) noexcept
     : _origin(origin), _direction(direction)
   {}
 
@@ -35,13 +35,13 @@ public:
    * @param t The distance along the ray.
    * @return
    */
-  [[nodiscard]] constexpr auto At(const float t) const noexcept { return _origin + t * _direction; }
+  [[nodiscard]] constexpr auto At(const double t) const noexcept { return _origin + t * _direction; }
 
 private:
   /// @brief The origin of the ray.
   Point _origin;
   /// @brief The direction of the ray.
-  Vec3f _direction;
+  Vec3 _direction;
 };
 
 }// namespace rt

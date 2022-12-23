@@ -35,7 +35,7 @@ foreach (TEST_SRC ${TESTS_SRC})
 
     # -- Release and Debug --
     if (CMAKE_BUILD_TYPE MATCHES Release)
-        target_compile_options(${TEST_NAME} PRIVATE -O3 --coverage)
+        target_compile_options(${TEST_NAME} PRIVATE -O3)
     elseif (CMAKE_BUILD_TYPE MATCHES Debug)
         target_compile_options(${TEST_NAME} PRIVATE -g -O0)
     endif ()

@@ -14,7 +14,7 @@ using rt::HitRecord;
 TEST_CASE("scene_clear")
 {
   Scene scene;
-  scene.Add(std::make_unique<Sphere>(Point(0, 0, -1), 0.5f));
+  scene.Add(std::make_unique<Sphere>(Point(0, 0, -1), 0.5));
   scene.Clear();
   REQUIRE(scene.IsEmpty());
 }

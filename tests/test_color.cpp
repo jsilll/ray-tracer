@@ -3,12 +3,12 @@
 #include <rt/color.hpp>
 
 using rt::Color;
-using rt::Vec3f;
+using rt::Vec3;
 
 TEST_CASE("color_from_normal")
 {
-  const auto color = rt::color::FromNormal(Vec3f(1, 2, 3).Normalized());
-  REQUIRE(color.x() == 0.63363062f);
-  REQUIRE(color.y() == 0.76726124f);
-  REQUIRE(color.z() == 0.90089186f);
+  const auto color = rt::color::FromNormal(Vec3(1, 2, 3).Normalized());
+  REQUIRE(color.x() == ((1.0 / std::sqrt(14)  + 1.0) / 2.0));
+  REQUIRE(color.y() == ((2.0 / std::sqrt(14)  + 1.0) / 2.0));
+  REQUIRE(color.z() == ((3.0 / std::sqrt(14)  + 1.0) / 2.0));
 }

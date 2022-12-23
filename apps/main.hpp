@@ -1,7 +1,7 @@
 #pragma once
 
 #include <clap.hpp>
-#include <logging.hpp>
+#include <logger.hpp>
 
 #include <string>
 #include <thread>
@@ -27,7 +27,6 @@ const std::unordered_map<RenderType, std::string> render_type_to_str = { { Rende
 /// @brief The arguments for the program.
 struct Args
 {
-
   /// @brief The width of the image.
   std::size_t width{};
   /// @brief The height of the image.
@@ -42,7 +41,7 @@ struct Args
   RenderType render_type{};
 
   /// @brief The maximum depth of the depth map, optional.
-  float max_depth{ 1 };
+  double max_depth{ 1 };
   /// @brief The number of ray bounces, optional.
   unsigned int bounces{ 50 };
   /// @brief The number of threads to use, optional.
@@ -55,7 +54,7 @@ struct Args
  * @param argv The arguments.
  * @return
  */
-Args GetArgs(const int argc, char *argv[])
+Args GetArgs(const int argc, char *argv[], Logger &logger)
 {
   Args args;
   Clap args_parser;
@@ -82,7 +81,7 @@ Args GetArgs(const int argc, char *argv[])
     args.max_depth = std::stof(args_parser.Value("max_depth"));
   } catch (const std::runtime_error &e) {
     if (args.render_type == RenderType::kDepthMap) {
-      log(LogLevel::kWarning, "'max_depth' argument missing, using default value of 1");
+      logger.Log(LogLevel::kWarning, "'max_depth' argument missing, using default value of 1");
     }
   }
 
@@ -91,7 +90,7 @@ Args GetArgs(const int argc, char *argv[])
     args.bounces = std::stoul(args_parser.Value("bounces"));
   } catch (const std::exception &) {
     if (args.render_type == RenderType::kBeauty) {
-      log(LogLevel::kWarning, "'bounces' argument missing, using default value of 50");
+      logger.Log(LogLevel::kWarning, "'bounces' argument missing, using default value of 50");
     }
   }
 
@@ -99,23 +98,9 @@ Args GetArgs(const int argc, char *argv[])
   try {
     args.threads = std::stoul(args_parser.Value("threads"));
   } catch (const std::exception &) {
-    log(LogLevel::kWarning,
+    logger.Log(LogLevel::kWarning,
       "'threads' argument missing, using default value of " + std::to_string(std::thread::hardware_concurrency()));
   }
 
   return args;
-}
-
-/**
- * @brief Prints the parsed arguments, for debugging purposes.
- */
-void LogArgs(const Args &args)
-{
-  log(LogLevel::kDebug, "Seed: " + std::to_string(args.seed));
-  log(LogLevel::kDebug, "Width: " + std::to_string(args.width));
-  log(LogLevel::kDebug, "Height: " + std::to_string(args.height));
-  log(LogLevel::kDebug, "Samples: " + std::to_string(args.samples));
-  log(LogLevel::kDebug, "Bounces: " + std::to_string(args.bounces));
-  log(LogLevel::kDebug, "Render type: " + render_type_to_str.at(args.render_type));
-  log(LogLevel::kDebug, "Output: " + args.output);
 }

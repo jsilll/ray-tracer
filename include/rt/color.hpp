@@ -5,7 +5,7 @@
 namespace rt {
 
 /// @brief A color in RGB space.
-using Color = Vec3f;
+using Color = Vec3;
 
 /// @brief Aggregates the color utilities for the library.
 namespace color {
@@ -15,7 +15,7 @@ namespace color {
    * @param normal The normal of the surface.
    * @return
    */
-  [[nodiscard]] constexpr Color FromNormal(const Vec3f &normal) noexcept { return (normal + 1.0f) / 2; }
+  [[nodiscard]] constexpr Color FromNormal(const Vec3 &normal) noexcept { return (normal + 1.0f) / 2; }
 
 }// namespace color
 

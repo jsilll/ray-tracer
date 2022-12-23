@@ -9,10 +9,8 @@
 namespace rt {
 
 /// @brief A 3D vector.
-template<typename T> class Vec3 final
+class Vec3
 {
-  static_assert(std::is_arithmetic<T>::value, "Vec3 class template only accepts arithmetic types.");
-
 public:
   /**
    * @brief Constructs a vector with the given x, y, and z components.
@@ -20,31 +18,31 @@ public:
    * @param y The y component.
    * @param z The z component.
    */
-  [[nodiscard]] constexpr Vec3(const T x, const T y, const T z) noexcept : _e{ x, y, z } {}
+  [[nodiscard]] constexpr Vec3(const double x, const double y, const double z) noexcept : _x(x), _y(y), _z(z) {}
 
   /**
    * @brief Returns the x component of this vector.
    * @return
    */
-  [[nodiscard]] constexpr auto x() const noexcept { return _e[0]; }
+  [[nodiscard]] constexpr auto x() const noexcept { return _x; }
 
   /**
    * @brief Returns the y coordinate of this vector.
    * @return
    */
-  [[nodiscard]] constexpr auto y() const noexcept { return _e[1]; }
+  [[nodiscard]] constexpr auto y() const noexcept { return _y; }
 
   /**
    * @brief Returns the z coordinate of the vector.
    * @return
    */
-  [[nodiscard]] constexpr auto z() const noexcept { return _e[2]; }
+  [[nodiscard]] constexpr auto z() const noexcept { return _z; }
 
   /**
    * @brief Negates this vector.
    * @return
    */
-  [[nodiscard]] constexpr auto operator-() const noexcept { return Vec3(-_e[0], -_e[1], -_e[2]); }
+  [[nodiscard]] constexpr auto operator-() const noexcept { return Vec3(-_x, -_y, -_z); }
 
   /**
    * @brief Sums this vector with the given vector.
@@ -53,9 +51,9 @@ public:
    */
   constexpr auto &operator+=(const Vec3 &v) noexcept
   {
-    _e[0] += v._e[0];
-    _e[1] += v._e[1];
-    _e[2] += v._e[2];
+    _x += v._x;
+    _y += v._y;
+    _z += v._z;
     return *this;
   }
 
@@ -66,9 +64,9 @@ public:
    */
   constexpr auto &operator-=(const Vec3 &v) noexcept
   {
-    _e[0] -= v._e[0];
-    _e[1] -= v._e[1];
-    _e[2] -= v._e[2];
+    _x -= v._x;
+    _y -= v._y;
+    _z -= v._z;
     return *this;
   }
 
@@ -77,11 +75,11 @@ public:
    * @param t The scalar.
    * @return
    */
-  constexpr auto &operator*=(const T t) noexcept
+  constexpr auto &operator*=(const double t) noexcept
   {
-    _e[0] *= t;
-    _e[1] *= t;
-    _e[2] *= t;
+    _x *= t;
+    _y *= t;
+    _z *= t;
     return *this;
   }
 
@@ -90,7 +88,7 @@ public:
    * @param t The scalar.
    * @return
    */
-  constexpr auto &operator/=(const T t) noexcept { return *this *= 1 / t; }
+  constexpr auto &operator/=(const double t) noexcept { return *this *= 1 / t; }
 
   /**
    * @brief Returns whether this vector is equal to the given vector.
@@ -99,7 +97,7 @@ public:
    */
   [[nodiscard]] constexpr auto operator==(const Vec3 &v) const noexcept
   {
-    return _e[0] == v._e[0] && _e[1] == v._e[1] && _e[2] == v._e[2];
+    return _x == v._x && _y == v._y && _z == v._z;
   }
 
   /**
@@ -108,9 +106,9 @@ public:
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const T t) noexcept
+  [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const double t) noexcept
   {
-    return Vec3(u._e[0] + t, u._e[1] + t, u._e[2] + t);
+    return Vec3(u._x + t, u._y + t, u._z + t);
   }
 
   /**
@@ -119,9 +117,9 @@ public:
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator-(const Vec3 &u, const T t) noexcept
+  [[nodiscard]] friend constexpr auto operator-(const Vec3 &u, const double t) noexcept
   {
-    return Vec3(u._e[0] - t, u._e[1] - t, u._e[2] - t);
+    return Vec3(u._x - t, u._y - t, u._z - t);
   }
 
   /**
@@ -132,7 +130,7 @@ public:
    */
   [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const Vec3 &v) noexcept
   {
-    return Vec3(u._e[0] + v._e[0], u._e[1] + v._e[1], u._e[2] + v._e[2]);
+    return Vec3(u._x + v._x, u._y + v._y, u._z + v._z);
   }
 
   /**
@@ -143,7 +141,7 @@ public:
    */
   [[nodiscard]] friend constexpr auto operator-(const Vec3 &u, const Vec3 &v) noexcept
   {
-    return Vec3(u._e[0] - v._e[0], u._e[1] - v._e[1], u._e[2] - v._e[2]);
+    return Vec3(u._x - v._x, u._y - v._y, u._z - v._z);
   }
 
   /**
@@ -154,7 +152,7 @@ public:
    */
   [[nodiscard]] friend constexpr auto operator*(const Vec3 &u, const Vec3 &v) noexcept
   {
-    return Vec3(u._e[0] * v._e[0], u._e[1] * v._e[1], u._e[2] * v._e[2]);
+    return Vec3(u._x * v._x, u._y * v._y, u._z * v._z);
   }
 
   /**
@@ -163,9 +161,9 @@ public:
    * @param v The vector.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator*(const T t, const Vec3 &v) noexcept
+  [[nodiscard]] friend constexpr auto operator*(const double t, const Vec3 &v) noexcept
   {
-    return Vec3(t * v._e[0], t * v._e[1], t * v._e[2]);
+    return Vec3(t * v._x, t * v._y, t * v._z);
   }
 
   /**
@@ -174,7 +172,7 @@ public:
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator*(const Vec3 &v, const T t) noexcept { return t * v; }
+  [[nodiscard]] friend constexpr auto operator*(const Vec3 &v, const double t) noexcept { return t * v; }
 
   /**
    * @brief Divides a vector by a scalar.
@@ -182,13 +180,13 @@ public:
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator/(const Vec3 &v, const T t) noexcept { return (1 / t) * v; }
+  [[nodiscard]] friend constexpr auto operator/(const Vec3 &v, const double t) noexcept { return (1 / t) * v; }
 
   /**
    * @brief Returns the norm of the vector squared.
    * @return
    */
-  [[nodiscard]] constexpr auto NormSquared() const noexcept { return _e[0] * _e[0] + _e[1] * _e[1] + _e[2] * _e[2]; }
+  [[nodiscard]] constexpr auto NormSquared() const noexcept { return _x * _x + _y * _y + _z * _z; }
 
   /**
    * @brief Returns the norm of the vector.
@@ -207,10 +205,7 @@ public:
    * @param v The vector.
    * @return
    */
-  [[nodiscard]] constexpr auto Dot(const Vec3 &v) const noexcept
-  {
-    return _e[0] * v._e[0] + _e[1] * v._e[1] + _e[2] * v._e[2];
-  }
+  [[nodiscard]] constexpr auto Dot(const Vec3 &v) const noexcept { return _x * v._x + _y * v._y + _z * v._z; }
 
   /**
    * @brief Cross product of two vectors.
@@ -219,8 +214,7 @@ public:
    */
   [[nodiscard]] constexpr auto Cross(const Vec3 &v) const noexcept
   {
-    return Vec3(
-      _e[1] * v._e[2] - _e[2] * v._e[1], _e[2] * v._e[0] - _e[0] * v._e[2], _e[0] * v._e[1] - _e[1] * v._e[0]);
+    return Vec3(_y * v._z - _z * v._y, _z * v._x - _x * v._z, _x * v._y - _y * v._x);
   }
 
   /**
@@ -231,24 +225,51 @@ public:
    */
   friend auto &operator<<(std::ostream &out, const Vec3 &v) noexcept
   {
-    return out << "Vec3{" << v._e[0] << ", " << v._e[1] << ", " << v._e[2] << '}';
+    return out << "Vec3{" << v._x << ", " << v._y << ", " << v._z << '}';
+  }
+
+  /**
+   * @brief Returns a random vector in the unit sphere.
+   * @return
+   */
+  [[nodiscard]] static Vec3 RandomInUnitSphere() noexcept
+  {
+    return 2 * Vec3(utils::RandomDouble(), utils::RandomDouble(), utils::RandomDouble()) - 1;
   }
 
   /**
    * @brief Returns a random vector within unit sphere.
    * @return
    */
-  [[nodiscard]] static Vec3<float> RandomWithinUnitSphere() noexcept
+  [[nodiscard]] static Vec3 RandomWithinUnitSphere() noexcept
   {
-    return 2.0f * Vec3(rt::utils::RandomFloat(), rt::utils::RandomFloat(), rt::utils::RandomFloat()) - 1.f;
+    while (true) {
+      auto p = 2 * Vec3(utils::RandomDouble(), utils::RandomDouble(), utils::RandomDouble()) - 1;
+      if (p.NormSquared() < 1) { return p; }
+    }
   }
 
-private:
-  /// @brief The components of the vector.
-  T _e[3];
-};
+  /**
+   * @brief Returns a random vector within the same hemisphere as the normal.
+   * @param normal The normal vector.
+   * @return
+   */
+  [[nodiscard]] static Vec3 RandomInHemisphere(const Vec3 &normal) noexcept
+  {
+    Vec3 in_unit_sphere = RandomInUnitSphere();
+    if (in_unit_sphere.Dot(normal) > 0.0)// In the same hemisphere as the normal
+      return in_unit_sphere;
+    else
+      return -in_unit_sphere;
+  }
 
-/// @brief Type alias for Vec3<float>.
-using Vec3f = Vec3<float>;
+protected:
+  /// @brief The x component of the vector.
+  double _x;
+  /// @brief The y component of the vector.
+  double _y;
+  /// @brief The z component of the vector.
+  double _z;
+};
 
 }// namespace rt

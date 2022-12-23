@@ -12,18 +12,57 @@ namespace rt::rendering {
  * @param ray The ray to render.
  * @return
  */
-rt::Color RenderBeauty(const rt::Scene &scene, const rt::Ray &ray, int bounces) noexcept
+rt::Color RenderBeautyLambertianHack(const rt::Scene &scene, const rt::Ray &ray, int bounces) noexcept
 {
-  // TODO: add tests, theres a BUG here!!!
   rt::HitRecord rec;
   if (bounces <= 0) return { 0, 0, 0 };
-  if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
-    Point target = rec.p + rec.normal + Vec3f::RandomWithinUnitSphere();
-    return 0.5f * RenderBeauty(scene, { rec.p, target - rec.p }, bounces - 1);
+  if (scene.Intersect(ray, 0.001, rt::utils::kInf, rec)) {
+    Point target = rec.p + rec.normal + Vec3::RandomWithinUnitSphere();
+    return 0.5 * RenderBeautyLambertianHack(scene, { rec.p, target - rec.p }, bounces - 1);
   } else {
     const auto unit_direction = ray.direction().Normalized();
-    const auto t = 0.5f * (unit_direction.y() + 1.0f);
-    return (1.0f - t) * rt::Color(1.0f, 1.0f, 1.0f) + t * rt::Color(0.5f, 0.7f, 1.0f);
+    const auto t = 0.5 * (unit_direction.y() + 1);
+    return (1 - t) * rt::Color(1, 1, 1) + t * rt::Color(0.5, 0.7, 1);
+  }
+}
+
+/**
+ * @brief Computes the color of a ray of light.
+ * @param scene The scene to render.
+ * @param ray The ray to render.
+ * @return
+ */
+rt::Color RenderBeautyTrueLambertian(const rt::Scene &scene, const rt::Ray &ray, int bounces) noexcept
+{
+  rt::HitRecord rec;
+  if (bounces <= 0) return { 0, 0, 0 };
+  if (scene.Intersect(ray, 0.001, rt::utils::kInf, rec)) {
+    Point target = rec.p + rec.normal + Vec3::RandomInUnitSphere();
+    return 0.5 * RenderBeautyLambertianHack(scene, { rec.p, target - rec.p }, bounces - 1);
+  } else {
+    const auto unit_direction = ray.direction().Normalized();
+    const auto t = 0.5 * (unit_direction.y() + 1);
+    return (1 - t) * rt::Color(1, 1, 1) + t * rt::Color(0.5, 0.7, 1);
+  }
+}
+
+/**
+ * @brief Computes the color of a ray of light.
+ * @param scene The scene to render.
+ * @param ray The ray to render.
+ * @return
+ */
+rt::Color RenderBeautyAlternativeDiffuse(const rt::Scene &scene, const rt::Ray &ray, int bounces) noexcept
+{
+  rt::HitRecord rec;
+  if (bounces <= 0) return { 0, 0, 0 };
+  if (scene.Intersect(ray, 0.001, rt::utils::kInf, rec)) {
+    Point target = rec.p + Vec3::RandomInHemisphere(rec.normal);
+    return 0.5 * RenderBeautyLambertianHack(scene, { rec.p, target - rec.p }, bounces - 1);
+  } else {
+    const auto unit_direction = ray.direction().Normalized();
+    const auto t = 0.5 * (unit_direction.y() + 1);
+    return (1 - t) * rt::Color(1, 1, 1) + t * rt::Color(0.5, 0.7, 1);
   }
 }
 
@@ -33,11 +72,11 @@ rt::Color RenderBeauty(const rt::Scene &scene, const rt::Ray &ray, int bounces) 
  * @param ray The ray to render.
  * @return
  */
-rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray, const float max_depth) noexcept// TODO: add tests
+rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray, const double max_depth) noexcept
 {
   rt::HitRecord rec;
-  if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
-    const float t = std::min(1.f, rec.t / max_depth);
+  if (scene.Intersect(ray, 0.001, rt::utils::kInf, rec)) {
+    const double t = std::min(1.0, rec.t / max_depth);
     return { 1 - t, 1 - t, 1 - t };
   } else {
     return { 0, 0, 0 };
@@ -53,7 +92,7 @@ rt::Color RenderDepthMap(const rt::Scene &scene, const rt::Ray &ray, const float
 rt::Color RenderNormalMap(const rt::Scene &scene, const rt::Ray &ray) noexcept
 {
   rt::HitRecord rec;
-  if (scene.Intersect(ray, 0, rt::utils::kInf, rec)) {
+  if (scene.Intersect(ray, 0.001, rt::utils::kInf, rec)) {
     return rt::color::FromNormal(rec.normal);
   } else {
     return { 0, 0, 0 };

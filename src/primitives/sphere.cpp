@@ -2,7 +2,7 @@
 
 namespace rt {
 
-bool Sphere::Intersect(const Ray &ray, const float t_min, const float t_max, HitRecord &rec) const noexcept
+bool Sphere::Intersect(const Ray &ray, const double t_min, const double t_max, HitRecord &rec) const noexcept
 {
   const auto oc = ray.origin() - _center;
   const auto a = ray.direction().NormSquared();

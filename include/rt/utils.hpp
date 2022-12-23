@@ -1,7 +1,5 @@
 #pragma once
 
-#include <rt/vec3.hpp>
-
 #include <cmath>
 #include <limits>
 #include <random>
@@ -10,18 +8,17 @@
 namespace rt::utils {
 
 /// @brief Pi constant.
-constexpr float kPi = 3.1415926535897932385f;
+constexpr double kPi = 3.1415926535897932385f;
 
 /// @brief Infinity constant.
-constexpr auto kInf = std::numeric_limits<float>::infinity();
+constexpr auto kInf = std::numeric_limits<double>::infinity();
 
 /**
  * @brief Converts degrees to radians.
  * @param degrees The degrees to convert.
  * @return
  */
-inline constexpr float DegreesToRadians(float degrees) { return degrees * kPi / 180.f; }
-// TODO: add tests
+inline constexpr double DegreesToRadians(double degrees) { return degrees * kPi / 180; }
 
 /**
  * @brief Clamps a value between a minimum and a maximum.
@@ -30,24 +27,22 @@ inline constexpr float DegreesToRadians(float degrees) { return degrees * kPi / 
  * @param max The maximum value.
  * @return
  */
-inline constexpr float Clamp(float x, float min, float max)
+inline constexpr double Clamp(double x, double min, double max)
 {
-  // TODO: add tests
   if (x < min) return min;
   if (x > max) return max;
   return x;
 }
 
 /**
- * @brief Generates a random float in the range [0, 1).
+ * @brief Generates a random double in the range [0, 1).
  * @return
  */
-inline float RandomFloat() noexcept
+inline double RandomDouble() noexcept
 {
-  // TODO: add tests
   static std::random_device rd;
   static std::mt19937 generator(rd());
-  static std::uniform_real_distribution<float> distribution(0.0f, 1.0f);
+  static std::uniform_real_distribution<double> distribution(0.0, 1.0);
   return distribution(generator);
 }
 

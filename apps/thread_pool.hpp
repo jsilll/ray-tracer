@@ -16,35 +16,12 @@ public:
    * @brief Construct a new ThreadPool object.
    * @param num_threads
    */
-  explicit ThreadPool(size_t num_threads) : _threads(num_threads)
-  {
-    for (size_t i = 0; i < num_threads; ++i) {
-      _threads[i] = std::thread([this] {
-        while (true) {
-          std::unique_lock<std::mutex> lock(_mutex);
-          _condition.wait(lock, [this] { return _stop || !_tasks.empty(); });
-          if (_stop && _tasks.empty()) { return; }
-          auto task = std::move(_tasks.front());
-          _tasks.pop();
-          lock.unlock();
-          task();
-        }
-      });
-    }
-  }
+  explicit ThreadPool(size_t num_threads) noexcept;
 
   /**
    * @brief Destroy the ThreadPool object.
    */
-  ~ThreadPool()
-  {
-    {
-      std::unique_lock<std::mutex> lock(_mutex);
-      _stop = true;
-    }
-    _condition.notify_all();
-    for (auto &thread : _threads) { thread.join(); }
-  }
+  ~ThreadPool() noexcept;
 
   /// @brief Disable copy constructor.
   ThreadPool(const ThreadPool &) = delete;
@@ -56,17 +33,17 @@ public:
    * @brief Add a task to the thread pool.
    * @param task The task to add.
    */
-  template<typename F, typename... Args> auto enqueue(F &&f, Args &&...args)
-    -> std::future<typename std::result_of<F(Args...)>::type>
+  template<typename F, typename... Args> auto Enqueue(F &&f, Args &&...args) noexcept
   {
-    using return_type = typename std::result_of<F(Args...)>::type;
+    using return_type = typename std::result_of_t<F(Args...)>;
     auto task =
       std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f), std::forward<Args>(args)...));
     std::future<return_type> result = task->get_future();
     {
       std::unique_lock<std::mutex> lock(_mutex);
-      if (_stop) { throw std::runtime_error("Thread pool is stopped"); }
-      _tasks.emplace([task]() { (*task)(); });
+      if (!_stop) {
+        _tasks.emplace([task]() { (*task)(); });
+      }
     }
     _condition.notify_one();
     return result;

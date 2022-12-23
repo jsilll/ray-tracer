@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/surface.hpp>
+#include <rt/object3d.hpp>
 
 #include <memory>
 #include <vector>
@@ -8,16 +8,16 @@
 namespace rt {
 
 /// @brief A scene in 3D space.
-class Scene final : Surface
+class Scene final : Object3D
 {
 public:
-  Scene() noexcept = default;
+  [[nodiscard]] Scene() noexcept = default;
 
   /**
    * @brief Move constructs a scene.
    * @param scene
    */
-  Scene(Scene &&scene) noexcept : _objects(std::move(scene._objects)) {}
+  [[nodiscard]] Scene(Scene &&scene) noexcept : _objects(std::move(scene._objects)) {}
 
   /**
    * @brief Reassigns the scene with move semantics.
@@ -51,13 +51,13 @@ public:
    * @brief Adds an object to the scene.
    * @param object The object to add.
    */
-  void Add(std::unique_ptr<Surface> object) noexcept { _objects.push_back(std::move(object)); }
+  void Add(std::unique_ptr<Object3D> object) noexcept { _objects.push_back(std::move(object)); }
 
-  [[nodiscard]] bool Intersect(const Ray &ray, float t_min, float t_max, HitRecord &rec) const noexcept override;
+  [[nodiscard]] bool Intersect(const Ray &ray, double t_min, double t_max, HitRecord &rec) const noexcept override;
 
 private:
   /// @brief The surfaces in the scene.
-  std::vector<std::unique_ptr<Surface>> _objects;
+  std::vector<std::unique_ptr<Object3D>> _objects;
 };
 
 }// namespace rt
