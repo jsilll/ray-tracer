@@ -2,8 +2,6 @@
 
 #include <fstream>
 
-using rt::utils::Clamp;
-
 constexpr auto kMultiplier = 256;
 
 void Image::SaveAsPPM(const std::string &filename) const
@@ -27,9 +25,9 @@ void Image::SaveAsPPM(const std::string &filename) const
       const auto col = static_cast<std::size_t>(i);
       auto &color = _pixels[col][row];
       // Gamma Correction 2.0 + Clamping + Scaling to [0, 255)
-      const auto ir = static_cast<int>(kMultiplier * Clamp(std::sqrt(color.x()), 0, 0.999));
-      const auto ig = static_cast<int>(kMultiplier * Clamp(std::sqrt(color.y()), 0, 0.999));
-      const auto ib = static_cast<int>(kMultiplier * Clamp(std::sqrt(color.z()), 0, 0.999));
+      const auto ir = static_cast<int>(kMultiplier * rt::utils::Clamp(std::sqrt(color.x()), 0, 0.999));
+      const auto ig = static_cast<int>(kMultiplier * rt::utils::Clamp(std::sqrt(color.y()), 0, 0.999));
+      const auto ib = static_cast<int>(kMultiplier * rt::utils::Clamp(std::sqrt(color.z()), 0, 0.999));
       file << ir << ' ' << ig << ' ' << ib << '\n';
     }
   }

@@ -39,12 +39,6 @@ public:
   [[nodiscard]] constexpr auto z() const noexcept { return _z; }
 
   /**
-   * @brief Negates this vector.
-   * @return
-   */
-  [[nodiscard]] constexpr auto operator-() const noexcept { return Vec3(-_x, -_y, -_z); }
-
-  /**
    * @brief Sums this vector with the given vector.
    * @param v The vector.
    * @return
@@ -101,26 +95,24 @@ public:
   }
 
   /**
+   * @brief Negates this vector.
+   * @return
+   */
+  [[nodiscard]] constexpr auto operator-() const noexcept { return Vec3(-_x, -_y, -_z); }
+
+  /**
    * @brief Returns the sum of this vector with a scalar.
-   * @param u The vector.
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const double t) noexcept
-  {
-    return Vec3(u._x + t, u._y + t, u._z + t);
-  }
+  [[nodiscard]] constexpr auto operator+(const double t) const noexcept { return Vec3(_x + t, _y + t, _z + t); }
 
   /**
    * @brief Returns the subtraction of this vector with a scalar.
-   * @param u The vector.
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator-(const Vec3 &u, const double t) noexcept
-  {
-    return Vec3(u._x - t, u._y - t, u._z - t);
-  }
+  [[nodiscard]] constexpr auto operator-(const double t) const noexcept { return Vec3(_x - t, _y - t, _z - t); }
 
   /**
    * @brief Sums two vectors.
@@ -128,10 +120,7 @@ public:
    * @param v The second vector.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator+(const Vec3 &u, const Vec3 &v) noexcept
-  {
-    return Vec3(u._x + v._x, u._y + v._y, u._z + v._z);
-  }
+  [[nodiscard]] constexpr auto operator+(const Vec3 &v) const noexcept { return Vec3(_x + v._x, _y + v._y, _z + v._z); }
 
   /**
    * @brief Subtracts two vectors.
@@ -139,10 +128,7 @@ public:
    * @param v The second vector.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator-(const Vec3 &u, const Vec3 &v) noexcept
-  {
-    return Vec3(u._x - v._x, u._y - v._y, u._z - v._z);
-  }
+  [[nodiscard]] constexpr auto operator-(const Vec3 &v) const noexcept { return Vec3(_x - v._x, _y - v._y, _z - v._z); }
 
   /**
    * @brief Element-wise multiplication of two vectors.
@@ -150,10 +136,7 @@ public:
    * @param v The second vector.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator*(const Vec3 &u, const Vec3 &v) noexcept
-  {
-    return Vec3(u._x * v._x, u._y * v._y, u._z * v._z);
-  }
+  [[nodiscard]] constexpr auto operator*(const Vec3 &v) const noexcept { return Vec3(_x * v._x, _y * v._y, _z * v._z); }
 
   /**
    * @brief Multiplies a vector by a scalar.
@@ -161,10 +144,7 @@ public:
    * @param v The vector.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator*(const double t, const Vec3 &v) noexcept
-  {
-    return Vec3(t * v._x, t * v._y, t * v._z);
-  }
+  [[nodiscard]] constexpr auto operator*(const double t) const noexcept { return Vec3(t * _x, t * _y, t * _z); }
 
   /**
    * @brief Multiplies a vector by a scalar.
@@ -172,7 +152,7 @@ public:
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator*(const Vec3 &v, const double t) noexcept { return t * v; }
+  [[nodiscard]] friend constexpr auto operator*(const double t, const Vec3 &v) noexcept { return v * t; }
 
   /**
    * @brief Divides a vector by a scalar.
@@ -180,52 +160,47 @@ public:
    * @param t The scalar.
    * @return
    */
-  [[nodiscard]] friend constexpr auto operator/(const Vec3 &v, const double t) noexcept { return (1 / t) * v; }
+  [[nodiscard]] constexpr auto operator/(const double t) const noexcept { return (1 / t) * (*this); }
 
   /**
    * @brief Returns the norm of the vector squared.
    * @return
    */
-  [[nodiscard]] constexpr auto NormSquared() const noexcept { return _x * _x + _y * _y + _z * _z; }
+  [[nodiscard]] static constexpr auto NormSquared(const Vec3 &v) noexcept
+  {
+    return v._x * v._x + v._y * v._y + v._z * v._z;
+  }
 
   /**
    * @brief Returns the norm of the vector.
    * @return
    */
-  [[nodiscard]] constexpr auto Norm() const noexcept { return std::sqrt(NormSquared()); }
+  [[nodiscard]] static constexpr auto Norm(const Vec3 &v) noexcept { return std::sqrt(NormSquared(v)); }
 
   /**
    * @brief Returns a unit vector in the same direction as this vector.
    * @return
    */
-  [[nodiscard]] constexpr auto Normalized() const noexcept { return *this / Norm(); }
+  [[nodiscard]] static constexpr auto Normalized(const Vec3 &v) noexcept { return v / Norm(v); }
 
   /**
    * @brief Returns the dot product of two vectors.
    * @param v The vector.
    * @return
    */
-  [[nodiscard]] constexpr auto Dot(const Vec3 &v) const noexcept { return _x * v._x + _y * v._y + _z * v._z; }
+  [[nodiscard]] static constexpr auto Dot(const Vec3 &v, const Vec3 &u) noexcept
+  {
+    return v._x * u._x + v._y * u._y + v._z * u._z;
+  }
 
   /**
    * @brief Cross product of two vectors.
    * @param v The vector.
    * @return
    */
-  [[nodiscard]] constexpr auto Cross(const Vec3 &v) const noexcept
+  [[nodiscard]] static constexpr auto Cross(const Vec3 &v, const Vec3 &u) noexcept
   {
-    return Vec3(_y * v._z - _z * v._y, _z * v._x - _x * v._z, _x * v._y - _y * v._x);
-  }
-
-  /**
-   * @brief Returns a Vec3 with the same direction as this Vec3, but with a norm of 1.
-   * @param out The output stream.
-   * @param v The vector.
-   * @return
-   */
-  friend auto &operator<<(std::ostream &out, const Vec3 &v) noexcept
-  {
-    return out << "Vec3{" << v._x << ", " << v._y << ", " << v._z << '}';
+    return Vec3(v._y * u._z - v._z * u._y, v._z * u._x - v._x * u._z, v._x * u._y - v._y * u._x);
   }
 
   /**
@@ -245,7 +220,7 @@ public:
   {
     while (true) {
       auto p = 2 * Vec3(utils::RandomDouble(), utils::RandomDouble(), utils::RandomDouble()) - 1;
-      if (p.NormSquared() < 1) { return p; }
+      if (NormSquared(p) < 1) { return p; }
     }
   }
 
@@ -257,10 +232,22 @@ public:
   [[nodiscard]] static Vec3 RandomInHemisphere(const Vec3 &normal) noexcept
   {
     Vec3 in_unit_sphere = RandomInUnitSphere();
-    if (in_unit_sphere.Dot(normal) > 0.0)// In the same hemisphere as the normal
+    if (Dot(in_unit_sphere, normal) > 0.0) {
       return in_unit_sphere;
-    else
+    } else {
       return -in_unit_sphere;
+    }
+  }
+
+  /**
+   * @brief Returns a Vec3 with the same direction as this Vec3, but with a norm of 1.
+   * @param out The output stream.
+   * @param v The vector.
+   * @return
+   */
+  friend auto &operator<<(std::ostream &out, const Vec3 &v) noexcept
+  {
+    return out << "Vec3{" << v._x << ", " << v._y << ", " << v._z << '}';
   }
 
 protected:

@@ -5,9 +5,9 @@ namespace rt {
 bool Sphere::Intersect(const Ray &ray, const double t_min, const double t_max, HitRecord &rec) const noexcept
 {
   const auto oc = ray.origin() - _center;
-  const auto a = ray.direction().NormSquared();
-  const auto half_b = oc.Dot(ray.direction());
-  const auto c = oc.NormSquared() - Radius2();
+  const auto a = Vec3::NormSquared(ray.direction());
+  const auto half_b = Vec3::Dot(oc, ray.direction());
+  const auto c = Vec3::NormSquared(oc) - Radius2();
   const auto discriminant = half_b * half_b - a * c;
 
   if (discriminant < 0) return false;

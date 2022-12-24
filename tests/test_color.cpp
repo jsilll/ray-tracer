@@ -7,8 +7,8 @@ using rt::Vec3;
 
 TEST_CASE("color_from_normal")
 {
-  const auto color = rt::color::FromNormal(Vec3(1, 2, 3).Normalized());
-  REQUIRE(color.x() == ((1.0 / std::sqrt(14)  + 1.0) / 2.0));
-  REQUIRE(color.y() == ((2.0 / std::sqrt(14)  + 1.0) / 2.0));
-  REQUIRE(color.z() == ((3.0 / std::sqrt(14)  + 1.0) / 2.0));
+  const auto color = rt::color::FromNormal(Vec3::Normalized(Vec3(1, 2, 3)));
+  REQUIRE(color.x() == ((1.0 / std::sqrt(14) + 1.0) / 2.0));
+  REQUIRE(color.y() == ((2.0 / std::sqrt(14) + 1.0) / 2.0));
+  REQUIRE(color.z() == ((3.0 / std::sqrt(14) + 1.0) / 2.0));
 }

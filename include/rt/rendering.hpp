@@ -20,7 +20,7 @@ rt::Color RenderBeautyLambertianHack(const rt::Scene &scene, const rt::Ray &ray,
     Point target = rec.p + rec.normal + Vec3::RandomWithinUnitSphere();
     return 0.5 * RenderBeautyLambertianHack(scene, { rec.p, target - rec.p }, bounces - 1);
   } else {
-    const auto unit_direction = ray.direction().Normalized();
+    const auto unit_direction = Vec3::Normalized(ray.direction());
     const auto t = 0.5 * (unit_direction.y() + 1);
     return (1 - t) * rt::Color(1, 1, 1) + t * rt::Color(0.5, 0.7, 1);
   }
@@ -40,7 +40,7 @@ rt::Color RenderBeautyTrueLambertian(const rt::Scene &scene, const rt::Ray &ray,
     Point target = rec.p + rec.normal + Vec3::RandomInUnitSphere();
     return 0.5 * RenderBeautyLambertianHack(scene, { rec.p, target - rec.p }, bounces - 1);
   } else {
-    const auto unit_direction = ray.direction().Normalized();
+    const auto unit_direction = Vec3::Normalized(ray.direction());
     const auto t = 0.5 * (unit_direction.y() + 1);
     return (1 - t) * rt::Color(1, 1, 1) + t * rt::Color(0.5, 0.7, 1);
   }
@@ -60,7 +60,7 @@ rt::Color RenderBeautyAlternativeDiffuse(const rt::Scene &scene, const rt::Ray &
     Point target = rec.p + Vec3::RandomInHemisphere(rec.normal);
     return 0.5 * RenderBeautyLambertianHack(scene, { rec.p, target - rec.p }, bounces - 1);
   } else {
-    const auto unit_direction = ray.direction().Normalized();
+    const auto unit_direction = Vec3::Normalized(ray.direction());
     const auto t = 0.5 * (unit_direction.y() + 1);
     return (1 - t) * rt::Color(1, 1, 1) + t * rt::Color(0.5, 0.7, 1);
   }

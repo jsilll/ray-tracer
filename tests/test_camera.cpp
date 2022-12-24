@@ -49,11 +49,11 @@ TEST_CASE("camera_horizontal")
 TEST_CASE("camera_ray")
 {
   const auto camera = Camera(1, 3, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
-  auto ray = camera.Ray(0, 0);
-  REQUIRE(ray.origin() == rt::Point(0, 0, 0));
-  REQUIRE(ray.direction() == rt::Vec3(-1.5, -1, -1));
+  const auto ray1 = camera.Ray(0, 0);
+  REQUIRE(ray1.origin() == rt::Point(0, 0, 0));
+  REQUIRE(ray1.direction() == rt::Vec3(-1.5, -1, -1));
 
-  ray = camera.Ray(1, 1);
-  REQUIRE(ray.origin() == rt::Point(0, 0, 0));
-  REQUIRE(ray.direction() == rt::Vec3(1.5, 1, -1));
+  const auto ray2 = camera.Ray(1, 1);
+  REQUIRE(ray2.origin() == rt::Point(0, 0, 0));
+  REQUIRE(ray2.direction() == rt::Vec3(1.5, 1, -1));
 }

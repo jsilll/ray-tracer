@@ -26,7 +26,7 @@ TEST_CASE("vec3_cross")
 {
   constexpr Vec3 a(1, 2, 3);
   constexpr Vec3 b(4, 5, 6);
-  constexpr auto c = a.Cross(b);
+  constexpr auto c = Vec3::Cross(a, b);
   STATIC_REQUIRE(c.x() == -3);
   STATIC_REQUIRE(c.y() == 6);
   STATIC_REQUIRE(c.z() == -3);
@@ -36,26 +36,25 @@ TEST_CASE("vec3_dot")
 {
   constexpr Vec3 a(1, 2, 3);
   constexpr Vec3 b(4, 5, 6);
-  STATIC_REQUIRE(a.Dot(b) == 32);
+  STATIC_REQUIRE(Vec3::Dot(a, b) == 32);
 }
 
 TEST_CASE("vec3_norm")
 {
   constexpr Vec3 a(2, 2, 1);
-  REQUIRE(a.Norm() == 3);
+  REQUIRE(Vec3::Norm(a) == 3);
 }
 
 TEST_CASE("vec3_norm_squared")
 {
   constexpr Vec3 a(1, 2, 3);
-  constexpr auto b = a.NormSquared();
-  STATIC_REQUIRE(b == 14);
+  STATIC_REQUIRE(Vec3::NormSquared(a) == 14);
 }
 
 TEST_CASE("vec3_normalized")
 {
   constexpr Vec3 a(1, 2, 2);
-  auto b = a.Normalized();
+  const auto b = Vec3::Normalized(a);
   REQUIRE(b.x() == 1.0 / 3.0);
   REQUIRE(b.y() == 2.0 / 3.0);
   REQUIRE(b.z() == 2.0 / 3.0);

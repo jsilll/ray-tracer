@@ -25,8 +25,11 @@ public:
   [[nodiscard]] std::string Value(const std::string &key) const
   {
     auto it = _args.find(key);
-    if (it != _args.end()) { return it->second; }
-    throw std::runtime_error('\'' + key + "' argument not found.");
+    if (it != _args.end()) {
+      return it->second;
+    } else {
+      throw std::runtime_error('\'' + key + "' argument not found.");
+    }
   }
 
 private:

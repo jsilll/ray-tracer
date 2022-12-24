@@ -1,7 +1,6 @@
 #pragma once
 
 #include <image.hpp>
-#include <thread_pool.hpp>
 
 #include <rt/camera.hpp>
 #include <rt/scene.hpp>
@@ -34,35 +33,28 @@ public:
    * @return
    */
   template<typename RenderFunc>
-  [[nodiscard]] Image Render(const rt::Camera &camera, RenderFunc render_func, unsigned int threads) const noexcept
+  [[nodiscard]] Image Render(const rt::Camera &camera, RenderFunc render_func) const noexcept
   {
-    // Create the image
+    // Reserve memory for the image
     auto pixels = std::vector(_image_width, std::vector(_image_height, rt::Color(0, 0, 0)));
 
     // Pre-computing the max image width and height
     const auto width_max = static_cast<double>(_image_width - 1);
     const auto height_max = static_cast<double>(_image_height - 1);
 
-    // Create the thread pool
-    ThreadPool pool{ threads };
-    std::vector<std::future<void>> futures;
-
-    // Render the image
-    for (std::size_t col = 0; col < _image_width; ++col) {
-      futures.emplace_back(pool.Enqueue([&, col] {
-        for (std::size_t row = 0; row < _image_height; ++row) {
-          for (int s = 0; s < _samples_per_pixel; ++s) {
-            const auto u = (static_cast<double>(col) + rt::utils::RandomDouble()) / width_max;
-            const auto v = (static_cast<double>(row) + rt::utils::RandomDouble()) / height_max;
-            pixels[col][row] += render_func(_scene, camera.Ray(u, v));
-          }
-          pixels[col][row] /= static_cast<double>(_samples_per_pixel);
+    std::for_each(std::execution::par_unseq, std::begin(pixels), std::end(pixels), [&](auto &col) {
+      const auto col_idx = &col - &pixels[0];
+      std::for_each(std::execution::par_unseq, std::begin(col), std::end(col), [&](auto &row) {
+        const auto row_idx = &row - &col[0];
+        // Anti-aliasing
+        for (int s = 0; s < _samples_per_pixel; ++s) {
+          const auto u = (static_cast<double>(col_idx) + rt::utils::RandomDouble()) / width_max;
+          const auto v = (static_cast<double>(row_idx) + rt::utils::RandomDouble()) / height_max;
+          row += render_func(_scene, camera.Ray(u, v));
         }
-      }));
-    }
-
-    // Wait for all the futures to complete
-    for (auto &future : futures) { future.get(); }
+        row /= static_cast<double>(_samples_per_pixel);
+      });
+    });
 
     // Pass the pixels to the image
     return Image(std::move(pixels));

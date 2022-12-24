@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/object3d.hpp>
+#include <rt/object.hpp>
 
 #include <memory>
 #include <vector>
@@ -8,7 +8,7 @@
 namespace rt {
 
 /// @brief A scene in 3D space.
-class Scene final : Object3D
+class Scene final : Object
 {
 public:
   [[nodiscard]] Scene() noexcept = default;
@@ -51,13 +51,13 @@ public:
    * @brief Adds an object to the scene.
    * @param object The object to add.
    */
-  void Add(std::unique_ptr<Object3D> object) noexcept { _objects.push_back(std::move(object)); }
+  void Add(std::unique_ptr<Object> object) noexcept { _objects.push_back(std::move(object)); }
 
   [[nodiscard]] bool Intersect(const Ray &ray, double t_min, double t_max, HitRecord &rec) const noexcept override;
 
 private:
   /// @brief The surfaces in the scene.
-  std::vector<std::unique_ptr<Object3D>> _objects;
+  std::vector<std::unique_ptr<Object>> _objects;
 };
 
 }// namespace rt

@@ -7,6 +7,7 @@ void Clap::Parse(int argc, char *argv[]) noexcept
   // For each argument
   for (int i = 1; i < argc; ++i) {
     std::string_view arg(argv[i]);
+    // If the argument is a key
     if (arg.starts_with("--")) {
       std::size_t pos = arg.find('=');
       if (pos != std::string_view::npos) {
@@ -20,5 +21,6 @@ void Clap::Parse(int argc, char *argv[]) noexcept
         _args[key] = "";
       }
     }
+    // else: ignore positional arguments
   }
 }

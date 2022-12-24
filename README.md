@@ -10,9 +10,8 @@ It consists in a raytracing library and a simple application that uses the libra
 
 Roadmap:
 ----------
-- [ ] Cleaning CMakelists.txt 
-- [ ] Typedefs on Doxygen
 - [ ] Code coverage
+- [ ] Review RT API
 - [ ] Raytracing in One Weekend
 - [ ] Raytracing the Next Week
 - [ ] Raytracing the Rest of Your Life
@@ -60,7 +59,7 @@ This argument is useful when `--render_type=depth_map` is set. The `max_depth` a
 Benchmarks
 ----------
 
-The following benchmarks were run on a Intel Core i7-7700K CPU @ 4.20GHz with 16GB of RAM.
+The following benchmarks were run on an Intel Core i7-7700K CPU @ 4.20GHz with 16GB of RAM.
 
 | Benchmark | Time |
 |-----------|------|

@@ -6,7 +6,7 @@
 #include <iostream>
 
 /// @brief The different levels of logging.
-enum class LogLevel { kDebug, kInfo, kWarning, kError };
+enum class LogLevel { kInfo, kWarning, kError };
 
 /// @brief Simple logging class.
 class Logger final

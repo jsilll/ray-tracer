@@ -25,9 +25,9 @@ public:
     const Point &look_at,
     const Vec3 &vertical) noexcept
     : _focal_length(focal_length), _viewport_width(viewport_width), _viewport_height(viewport_height),
-      _position(position), _look_at(look_at), _vertical(vertical.Normalized() * viewport_height),
-      _horizontal((look_at - position).Normalized().Cross(vertical.Normalized()) * viewport_width),
-      _lower_left_corner(position + (look_at - position).Normalized() * focal_length - _horizontal / 2 - _vertical / 2)
+      _position(position), _look_at(look_at), _vertical(Vec3::Normalized(vertical) * viewport_height),
+      _horizontal(Vec3::Cross(Vec3::Normalized(look_at - position), Vec3::Normalized(vertical)) * viewport_width),
+      _lower_left_corner(position + Vec3::Normalized((look_at - position)) * focal_length - _horizontal / 2 - _vertical / 2)
   {}
 
   /**
@@ -70,7 +70,7 @@ public:
    * @brief Returns the horizontal vector of the camera.
    * @return
    */
-  [[nodiscard]] constexpr auto horizontal() const noexcept { return _horizontal; }// TODO: add tests
+  [[nodiscard]] constexpr auto horizontal() const noexcept { return _horizontal; }
 
   /**
    * @brief Returns the ray that passes through the left corner in the viewport.

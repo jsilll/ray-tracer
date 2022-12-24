@@ -1,7 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <rt/primitives/sphere.hpp>
-#include <rt/ray.hpp>
 
 using rt::Sphere;
 using rt::Ray;

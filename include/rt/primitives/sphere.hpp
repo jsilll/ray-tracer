@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/object3d.hpp>
+#include <rt/object.hpp>
 #include <rt/point.hpp>
 #include <rt/ray.hpp>
 #include <rt/vec3.hpp>
@@ -8,7 +8,7 @@
 namespace rt {
 
 /// @brief A sphere in 3D space.
-class Sphere final : public Object3D
+class Sphere final : public Object
 {
 public:
   /**
@@ -31,7 +31,7 @@ public:
   [[nodiscard]] constexpr auto radius() const noexcept { return _radius; }
 
   /**
-   * @brief Returns true the radius of the sphere squared.
+   * @brief Returns radius of the sphere squared.
    * @return
    */
   [[nodiscard]] constexpr auto Radius2() const noexcept { return _radius * _radius; }

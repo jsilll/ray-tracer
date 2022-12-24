@@ -5,7 +5,7 @@
 
 namespace rt {
 
-/// @brief A material that reflects rays.
+/// Forward declaration of the material class.
 class Material;
 
 /// @brief A surface in 3D space.
@@ -30,7 +30,7 @@ struct HitRecord
    */
   constexpr void SetFaceNormal(const Ray &r, const Vec3 &outwards_normal) noexcept
   {
-    front_face = r.direction().Dot(outwards_normal) <= 0;
+    front_face = Vec3::Dot(r.direction(), outwards_normal) <= 0;
     normal = front_face ? outwards_normal : -outwards_normal;
   }
 };

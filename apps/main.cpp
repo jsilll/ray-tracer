@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     args = GetArgs(argc, argv, logger);
   } catch (const std::exception &e) {
     logger.Log(LogLevel::kError, e.what());
-    std::exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 
   // Setting up the scene and camera
@@ -39,19 +39,15 @@ int main(int argc, char *argv[])
   logger.Log(LogLevel::kInfo, "Rendering Image");
   switch (args.render_type) {
   case RenderType::kNormalMap:
-    image = renderer.Render(camera, rt::rendering::RenderNormalMap, args.threads);
+    image = renderer.Render(camera, rt::rendering::RenderNormalMap);
     break;
   case RenderType::kDepthMap:
     image = renderer.Render(
-      camera,
-      [&](const auto &s, const auto &r) { return rt::rendering::RenderDepthMap(s, r, args.max_depth); },
-      args.threads);
+      camera, [&](const auto &s, const auto &r) { return rt::rendering::RenderDepthMap(s, r, args.max_depth); });
     break;
   case RenderType::kBeauty:
-    image = renderer.Render(
-      camera,
-      [&](const auto &s, const auto &r) { return rt::rendering::RenderBeautyAlternativeDiffuse(s, r, args.bounces); },
-      args.threads);
+    image = renderer.Render(camera,
+      [&](const auto &s, const auto &r) { return rt::rendering::RenderBeautyTrueLambertian(s, r, args.bounces); });
     break;
   }
 

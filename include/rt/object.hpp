@@ -8,10 +8,10 @@
 namespace rt {
 
 /// @brief An object in 3D space.
-class Object3D
+class Object
 {
 public:
-  virtual ~Object3D() = default;
+  virtual ~Object() = default;
 
   /**
    * @brief Returns whether the given ray intersects the surface.
