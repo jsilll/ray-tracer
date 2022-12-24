@@ -21,6 +21,7 @@ bool Sphere::Intersect(const Ray &ray, const double t_min, const double t_max, H
 
   rec.t = root;
   rec.p = ray.At(rec.t);
+  rec.material = _material.get();
   rec.SetFaceNormal(ray, (rec.p - _center) / _radius);
 
   return true;

@@ -13,12 +13,10 @@ using rt::Camera;
 int main(int argc, char *argv[])
 {
   // Create the logger
-  Logger logger(std::cout);
+  Logger logger;
 
   // Program Arguments
   Args args;
-
-  // Parse the command line arguments
   try {
     args = GetArgs(argc, argv, logger);
   } catch (const std::exception &e) {
@@ -28,7 +26,7 @@ int main(int argc, char *argv[])
 
   // Setting up the scene and camera
   const auto [scene, camera] =
-    scenes::SphereWithGround(static_cast<double>(args.width) / static_cast<double>(args.height));
+    scenes::MetalSpheres(static_cast<double>(args.width) / static_cast<double>(args.height));
 
   // Setting up the Renderer
   const auto samples = static_cast<int>(args.samples);
@@ -39,15 +37,15 @@ int main(int argc, char *argv[])
   logger.Log(LogLevel::kInfo, "Rendering Image");
   switch (args.render_type) {
   case RenderType::kNormalMap:
-    image = renderer.Render(camera, rt::rendering::RenderNormalMap);
+    image = renderer.Render(camera, rt::rendering::RenderNormal);
     break;
   case RenderType::kDepthMap:
     image = renderer.Render(
-      camera, [&](const auto &s, const auto &r) { return rt::rendering::RenderDepthMap(s, r, args.max_depth); });
+      camera, [&](const auto &s, const auto &r) { return rt::rendering::RenderDepth(s, r, args.max_depth); });
     break;
   case RenderType::kBeauty:
     image = renderer.Render(camera,
-      [&](const auto &s, const auto &r) { return rt::rendering::RenderBeautyTrueLambertian(s, r, args.bounces); });
+      [&](const auto &s, const auto &r) { return rt::rendering::RenderBeauty(s, r, args.bounces); });
     break;
   }
 

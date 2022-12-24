@@ -2,11 +2,9 @@
 
 #include <rt/color.hpp>
 #include <rt/ray.hpp>
+#include <rt/hit_record.hpp>
 
 namespace rt {
-
-/// Forward declaration of the hit record class.
-struct HitRecord;
 
 /// @brief A material that can be applied to any 3d object.
 class Material

@@ -29,9 +29,13 @@ inline constexpr double DegreesToRadians(double degrees) { return degrees * kPi 
  */
 inline constexpr double Clamp(double x, double min, double max)
 {
-  if (x < min) return min;
-  if (x > max) return max;
-  return x;
+  if (x < min) {
+    return min;
+  } else if (x > max) {
+    return max;
+  } else {
+    return x;
+  }
 }
 
 /**

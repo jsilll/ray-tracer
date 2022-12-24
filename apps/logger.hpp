@@ -13,12 +13,6 @@ class Logger final
 {
 public:
   /**
-   * @brief Construct a new Logger object.
-   * @param stream The stream to log to.
-   */
-  [[nodiscard]] explicit Logger(std::ostream &stream) noexcept : _stream(stream) {}
-
-  /**
    * @brief Logs a message to the console.
    * @param level The level of the message.
    * @param message The message to Log.
@@ -26,6 +20,4 @@ public:
   void Log(LogLevel level, const std::string &message) const noexcept;
 
 private:
-  /// @brief The stream to Log to.
-  std::ostream &_stream;
 };

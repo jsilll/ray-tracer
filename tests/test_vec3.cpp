@@ -153,3 +153,19 @@ TEST_CASE("vec3_operator_unary_minus_assign")
   REQUIRE(a.y() == -2);
   REQUIRE(a.z() == -3);
 }
+
+TEST_CASE("vec3_close_near_zero")
+{
+  constexpr Vec3 a(1e-9, 1e-9, 1e-9);
+  REQUIRE(a.NearZero());
+}
+
+TEST_CASE("vec3_reflect")
+{
+  constexpr Vec3 v(1, -1, 0);
+  constexpr Vec3 n(0, 1, 0);
+  constexpr auto r = Vec3::Reflect(v, n);
+  STATIC_REQUIRE(r.x() == 1);
+  STATIC_REQUIRE(r.y() == 1);
+  STATIC_REQUIRE(r.z() == 0);
+}

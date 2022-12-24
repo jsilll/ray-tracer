@@ -4,6 +4,9 @@
 #include <rt/point.hpp>
 #include <rt/ray.hpp>
 #include <rt/vec3.hpp>
+#include <rt/materials/lambertian_true.hpp>
+
+#include <memory>
 
 namespace rt {
 
@@ -16,7 +19,11 @@ public:
    * @param center The center of the sphere.
    * @param radius The radius of the sphere.
    */
-  [[nodiscard]] constexpr Sphere(const Point &center, const double radius) noexcept : _center(center), _radius(radius) {}
+  [[nodiscard]] Sphere(const Point &center,
+    const double radius,
+    std::unique_ptr<Material> material = std::make_unique<LambertianTrue>(Color(0.75, 0.75, 0.75))) noexcept
+    : _center(center), _radius(radius), _material(std::move(material))
+  {}
 
   /**
    * @brief Returns the center of the sphere.
@@ -43,6 +50,8 @@ private:
   Point _center;
   /// @brief The radius of the sphere.
   double _radius;
+  /// @brief The material of the sphere.
+  std::unique_ptr<Material> _material;
 };
 
 }// namespace rt

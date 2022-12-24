@@ -163,6 +163,15 @@ public:
   [[nodiscard]] constexpr auto operator/(const double t) const noexcept { return (1 / t) * (*this); }
 
   /**
+   * Returns whether this vector is near (0, 0, 0).
+   * @return
+   */
+  [[nodiscard]] bool NearZero() const noexcept
+  {
+    constexpr double s = 1e-8;
+    return (std::fabs(_x) < s) && (std::fabs(_y) < s) && (std::fabs(_z) < s);
+  }
+  /**
    * @brief Returns the norm of the vector squared.
    * @return
    */
@@ -204,10 +213,18 @@ public:
   }
 
   /**
+   * @brief Returns the reflected vector given the normal.
+   * @param v The vector.
+   * @param n The normal.
+   * @return
+   */
+  [[nodiscard]] static constexpr auto Reflect(const Vec3 &v, const Vec3 &n) noexcept { return v - 2 * Dot(v, n) * n; }
+
+  /**
    * @brief Returns a random vector in the unit sphere.
    * @return
    */
-  [[nodiscard]] static Vec3 RandomInUnitSphere() noexcept
+  [[nodiscard]] static Vec3 RandomInsideUnitSphere() noexcept
   {
     return 2 * Vec3(utils::RandomDouble(), utils::RandomDouble(), utils::RandomDouble()) - 1;
   }
@@ -216,7 +233,7 @@ public:
    * @brief Returns a random vector within unit sphere.
    * @return
    */
-  [[nodiscard]] static Vec3 RandomWithinUnitSphere() noexcept
+  [[nodiscard]] static Vec3 RandomInUnitSphere() noexcept
   {
     while (true) {
       auto p = 2 * Vec3(utils::RandomDouble(), utils::RandomDouble(), utils::RandomDouble()) - 1;
@@ -231,7 +248,7 @@ public:
    */
   [[nodiscard]] static Vec3 RandomInHemisphere(const Vec3 &normal) noexcept
   {
-    Vec3 in_unit_sphere = RandomInUnitSphere();
+    Vec3 in_unit_sphere = RandomInsideUnitSphere();
     if (Dot(in_unit_sphere, normal) > 0.0) {
       return in_unit_sphere;
     } else {

@@ -20,6 +20,8 @@ struct HitRecord
   /// @brief The normal of the surface at the intersection point.
   /// @note Should always be normalized and point in the opposite direction as the ray.
   Vec3 normal{ 0, 0, 0 };
+  /// @brief The material of the surface.
+  Material *material{ nullptr };
 
   /**
    * @brief Sets the normal of the surface.
