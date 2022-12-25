@@ -18,6 +18,7 @@ public:
    * @brief Constructs a sphere with the given center and radius.
    * @param center The center of the sphere.
    * @param radius The radius of the sphere.
+   * @param material The material of the sphere.
    */
   [[nodiscard]] Sphere(const Point &center,
     const double radius,

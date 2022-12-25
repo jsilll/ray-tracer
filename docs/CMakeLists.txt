@@ -6,4 +6,8 @@ set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
 file(GLOB LIB_RT_FILES ../include/rt/*.hpp ../include/rt/primitives/*.hpp)
 
 # -- Building Documentation --
-doxygen_add_docs(docs ${LIB_RT_FILES})
+doxygen_add_docs(docs ${LIB_RT_FILES} COMMENT "Generating API documentation for RT")
+
+# -- Installing Documentation --
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION docs)
+

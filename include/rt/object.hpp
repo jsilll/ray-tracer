@@ -15,7 +15,7 @@ public:
 
   /**
    * @brief Returns whether the given ray intersects the surface.
-   * @param r The ray to test.
+   * @param ray The ray to test.
    * @param t_min The minimum offset of the intersection point.
    * @param t_max The maximum offset of the intersection point.
    * @param rec The record of the intersection.

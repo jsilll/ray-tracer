@@ -116,24 +116,21 @@ public:
 
   /**
    * @brief Sums two vectors.
-   * @param u The first vector.
-   * @param v The second vector.
+   * @param v The vector.
    * @return
    */
   [[nodiscard]] constexpr auto operator+(const Vec3 &v) const noexcept { return Vec3(_x + v._x, _y + v._y, _z + v._z); }
 
   /**
    * @brief Subtracts two vectors.
-   * @param u The first vector.
-   * @param v The second vector.
+   * @param v The vector.
    * @return
    */
   [[nodiscard]] constexpr auto operator-(const Vec3 &v) const noexcept { return Vec3(_x - v._x, _y - v._y, _z - v._z); }
 
   /**
    * @brief Element-wise multiplication of two vectors.
-   * @param u The first vector.
-   * @param v The second vector.
+   * @param v The vector.
    * @return
    */
   [[nodiscard]] constexpr auto operator*(const Vec3 &v) const noexcept { return Vec3(_x * v._x, _y * v._y, _z * v._z); }
@@ -141,7 +138,6 @@ public:
   /**
    * @brief Multiplies a vector by a scalar.
    * @param t The scalar.
-   * @param v The vector.
    * @return
    */
   [[nodiscard]] constexpr auto operator*(const double t) const noexcept { return Vec3(t * _x, t * _y, t * _z); }
@@ -156,7 +152,6 @@ public:
 
   /**
    * @brief Divides a vector by a scalar.
-   * @param v The vector.
    * @param t The scalar.
    * @return
    */
@@ -194,7 +189,8 @@ public:
 
   /**
    * @brief Returns the dot product of two vectors.
-   * @param v The vector.
+   * @param v The first vector.
+   * @param u The second vector.
    * @return
    */
   [[nodiscard]] static constexpr auto Dot(const Vec3 &v, const Vec3 &u) noexcept
@@ -204,7 +200,8 @@ public:
 
   /**
    * @brief Cross product of two vectors.
-   * @param v The vector.
+   * @param v The first vector.
+   * @param u The second vector.
    * @return
    */
   [[nodiscard]] static constexpr auto Cross(const Vec3 &v, const Vec3 &u) noexcept
@@ -236,7 +233,7 @@ public:
   [[nodiscard]] static Vec3 RandomInUnitSphere() noexcept
   {
     while (true) {
-      auto p = 2 * Vec3(utils::RandomDouble(), utils::RandomDouble(), utils::RandomDouble()) - 1;
+      const auto p = 2 * Vec3(utils::RandomDouble(), utils::RandomDouble(), utils::RandomDouble()) - 1;
       if (NormSquared(p) < 1) { return p; }
     }
   }

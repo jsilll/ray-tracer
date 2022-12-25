@@ -13,6 +13,7 @@ namespace rt::rendering {
  * @brief Computes the color of a ray of light.
  * @param scene The scene to render.
  * @param ray The ray to render.
+ * @param bounces The number of bounces of light to render.
  * @return
  */
 [[nodiscard]] rt::Color RenderBeauty(const rt::Scene &scene, const rt::Ray &ray, int bounces) noexcept
@@ -38,9 +39,10 @@ namespace rt::rendering {
 }
 
 /**
- * @brief Computes the color according to the depth at the ray intersection.
+ * @brief Computes the depth of a ray of light.
  * @param scene The scene to render.
  * @param ray The ray to render.
+ * @param max_depth The maximum depth of the ray.
  * @return
  */
 [[nodiscard]] rt::Color RenderDepth(const rt::Scene &scene, const rt::Ray &ray, const double max_depth) noexcept

@@ -15,13 +15,7 @@ public:
    */
   [[nodiscard]] explicit LambertianTrue(const Color &albedo) noexcept : _albedo(albedo) {}
 
-  [[nodiscard]] bool Scatter([[maybe_unused]] const Ray &ray, const HitRecord &rec, Color &attenuation, Ray &scattered) const noexcept override
-  {
-    attenuation = _albedo;
-    const auto scatter_direction = rec.normal + Vec3::RandomInUnitSphere();
-    scattered = scatter_direction.NearZero() ? Ray(rec.p, rec.normal) : Ray(rec.p, scatter_direction);
-    return true;
-  }
+  [[nodiscard]] bool Scatter(const Ray &ray, const HitRecord &rec, Color &attenuation, Ray &scattered) const noexcept override;
 
 private:
   /// @brief The albedo of the material.

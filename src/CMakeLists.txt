@@ -1,5 +1,5 @@
 # -- RT Library --
-add_library(rt scene.cpp primitives/sphere.cpp)
+add_library(rt scene.cpp primitives/sphere.cpp materials/lambertian_alt.cpp materials/lambertian_hack.cpp materials/lambertian_true.cpp materials/metal.cpp)
 
 # -- Include Directory --
 target_include_directories(rt PUBLIC ../include/)
