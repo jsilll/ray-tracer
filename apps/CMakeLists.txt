@@ -2,7 +2,9 @@
 add_executable(raytracer main.cpp image.cpp clap.cpp logger.cpp scenes.cpp)
 
 # -- Linking Libraries --
-target_link_libraries(raytracer PRIVATE rt)
+find_package(TBB REQUIRED)
+find_package(Threads REQUIRED)
+target_link_libraries(raytracer PRIVATE rt Threads::Threads TBB::tbb)
 
 # -- Include Directories --
 target_include_directories(raytracer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -16,9 +18,9 @@ endif ()
 
 # -- Release and Debug Flags --
 if (CMAKE_BUILD_TYPE MATCHES Release)
-    target_compile_options(raytracer PRIVATE -O3 -march=native)
+    target_compile_options(raytracer PRIVATE -O3 -march=native -fopenmp)
 elseif (CMAKE_BUILD_TYPE MATCHES ReleaseCrossPlatform)
-    target_compile_options(raytracer PRIVATE -O3 -march=x86-64)
+    target_compile_options(raytracer PRIVATE -O3 -march=x86-64 -fopenmp)
 elseif (CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_options(raytracer PRIVATE -g -O0)
     target_compile_definitions(raytracer PRIVATE DEBUG)

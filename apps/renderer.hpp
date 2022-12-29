@@ -35,28 +35,21 @@ public:
   template<typename RenderFunc>
   [[nodiscard]] Image Render(const rt::Camera &camera, RenderFunc render_func) const noexcept
   {
-    // Reserve memory for the image
+    const auto max_width = static_cast<double>(_image_width - 1);
+    const auto max_height = static_cast<double>(_image_height - 1);
     auto pixels = std::vector(_image_width, std::vector(_image_height, rt::Color(0, 0, 0)));
-
-    // Pre-computing the max image width and height
-    const auto width_max = static_cast<double>(_image_width - 1);
-    const auto height_max = static_cast<double>(_image_height - 1);
-
     std::for_each(std::execution::par_unseq, std::begin(pixels), std::end(pixels), [&](auto &col) {
       const auto col_idx = &col - &pixels[0];
-      std::for_each(std::execution::par_unseq, std::begin(col), std::end(col), [&](auto &row) {
-        const auto row_idx = &row - &col[0];
-        // Anti-aliasing
+      std::for_each(std::execution::seq, std::begin(col), std::end(col), [&](auto &pixel) {
         for (int s = 0; s < _samples_per_pixel; ++s) {
-          const auto u = (static_cast<double>(col_idx) + rt::utils::RandomDouble()) / width_max;
-          const auto v = (static_cast<double>(row_idx) + rt::utils::RandomDouble()) / height_max;
-          row += render_func(_scene, camera.Ray(u, v));
+          const auto row_idx = &pixel - &col[0];
+          const auto u = (static_cast<double>(col_idx) + rt::utils::RandomDouble()) / max_width;
+          const auto v = (static_cast<double>(row_idx) + rt::utils::RandomDouble()) / max_height;
+          pixel += render_func(_scene, camera.Ray(u, v));
         }
-        row /= static_cast<double>(_samples_per_pixel);
+        pixel /= static_cast<double>(_samples_per_pixel);
       });
     });
-
-    // Pass the pixels to the image
     return Image(std::move(pixels));
   }
 

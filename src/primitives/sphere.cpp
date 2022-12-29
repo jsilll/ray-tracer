@@ -10,13 +10,13 @@ bool Sphere::Intersect(const Ray &ray, const double t_min, const double t_max, H
   const auto c = Vec3::NormSquared(oc) - Radius2();
   const auto discriminant = half_b * half_b - a * c;
 
-  if (discriminant < 0) return false;
+  if (discriminant < 0) { return false; }
 
   const auto discriminant_square_root = std::sqrt(discriminant);
   auto root = (-half_b - discriminant_square_root) / a;
   if (root < t_min || t_max < root) {
     root = (-half_b + discriminant_square_root) / a;
-    if (root < t_min || t_max < root) return false;
+    if (root < t_min || t_max < root) { return false; }
   }
 
   rec.t = root;

@@ -23,10 +23,10 @@
 #define RENDER_TYPE_VAL_NORMAL_MAP "normal"
 
 /// @brief Defines for the error messages.
-#define ERROR_OUTPUT "'output' argument is invalid"
-#define ERROR_WIDTH "'width' argument is invalid"
-#define ERROR_HEIGHT "'height' argument is invalid"
-#define ERROR_RENDER_TYPE "'type' argument is invalid"
+#define ERROR_OUTPUT "'output' argument is invalid or missing"
+#define ERROR_WIDTH "'width' argument is invalid or missing"
+#define ERROR_HEIGHT "'height' argument is invalid or missing"
+#define ERROR_RENDER_TYPE "'type' argument is invalid or missing"
 #define ERROR_SAMPLES "'samples' argument is either invalid or missing, using default value of 32"
 #define ERROR_MAX_DEPTH "'max_depth' argument is either invalid or missing, using default value of 1"
 #define ERROR_BOUNCES "'bounces' argument is either invalid or missing, using default value of 50"
