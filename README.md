@@ -5,9 +5,6 @@ This is simple CPU raytracer. It is based on the book "Ray Tracing in One Weeken
 
 It consists in a raytracing library and a simple application that uses the library. The library is in the `include/rt` folder and the application is in the `apps` folder.
 
-<img src="images/raytracing_in_one_weekend/scene_depth.png" width="500" height=auto />
-<img src="images/raytracing_in_one_weekend/scene_normals.png" width="500" height=auto />
-
 Roadmap:
 ----------
 - [ ] Code coverage
