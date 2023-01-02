@@ -2,9 +2,11 @@
 add_executable(raytracer main.cpp image.cpp clap.cpp logger.cpp scenes.cpp)
 
 # -- Linking Libraries --
-find_package(TBB REQUIRED)
-find_package(Threads REQUIRED)
-target_link_libraries(raytracer PRIVATE rt Threads::Threads TBB::tbb)
+find_package(TBB)
+if (TBB_FOUND)
+    target_link_libraries(raytracer PRIVATE TBB::tbb)
+endif ()
+target_link_libraries(raytracer PRIVATE rt)
 
 # -- Include Directories --
 target_include_directories(raytracer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
