@@ -11,6 +11,18 @@
 using rt::Scene;
 using rt::Camera;
 
+std::pair<rt::Scene, rt::Camera> LoadScene(SceneType scene_type, const double aspect_ratio) noexcept
+{
+  switch (scene_type) {
+  case kDefault:
+    return scenes::Default(aspect_ratio);
+  case kMetalSpheres:
+    return scenes::MetalSpheres(aspect_ratio);
+  default:
+    return scenes::Default(aspect_ratio);
+  }
+}
+
 int main(int argc, char *argv[])
 {
   // Create the logger
@@ -26,7 +38,8 @@ int main(int argc, char *argv[])
   }
 
   // Setting up the scene and camera
-  const auto [scene, camera] = scenes::MetalSpheres(static_cast<double>(args.width) / static_cast<double>(args.height));
+  const auto [scene, camera] =
+    LoadScene(args.scene_type, static_cast<double>(args.width) / static_cast<double>(args.height));
 
   // Setting up the Renderer
   const auto samples = static_cast<int>(args.samples);

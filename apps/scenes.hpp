@@ -13,7 +13,7 @@ namespace scenes {
  * @param aspect_ratio The aspect ratio of the camera.
  * @return
  */
-[[nodiscard]] std::pair<rt::Scene, rt::Camera> SphereWithGround(double aspect_ratio) noexcept;
+[[nodiscard]] std::pair<rt::Scene, rt::Camera> Default(double aspect_ratio) noexcept;
 
 /**
  * @brief Creates a scene with three spheres.

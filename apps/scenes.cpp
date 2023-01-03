@@ -9,7 +9,7 @@
 
 namespace scenes {
 
-std::pair<rt::Scene, rt::Camera> SphereWithGround(const double aspect_ratio) noexcept
+std::pair<rt::Scene, rt::Camera> Default(const double aspect_ratio) noexcept
 {
   rt::Scene scene;
   const auto camera = rt::Camera(1, aspect_ratio * 2, 2, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 });
