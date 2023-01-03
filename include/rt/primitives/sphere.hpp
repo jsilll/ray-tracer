@@ -1,10 +1,10 @@
 #pragma once
 
+#include <rt/materials/lambertian_true.hpp>
 #include <rt/object.hpp>
 #include <rt/point.hpp>
 #include <rt/ray.hpp>
 #include <rt/vec3.hpp>
-#include <rt/materials/lambertian_true.hpp>
 
 #include <memory>
 

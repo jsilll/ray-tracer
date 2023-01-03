@@ -12,6 +12,8 @@ enum class LogLevel { kInfo, kWarning, kError };
 class Logger final
 {
 public:
+  [[nodiscard]] explicit Logger(std::ostream &stream) noexcept : _stream(stream) {}
+
   /**
    * @brief Logs a message to the console.
    * @param level The level of the message.
@@ -20,4 +22,6 @@ public:
   void Log(LogLevel level, const std::string &message) const noexcept;
 
 private:
+  /// @brief The stream to log to.
+  std::ostream &_stream;
 };

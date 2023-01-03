@@ -18,7 +18,8 @@ public:
     : _albedo(albedo), _fuzziness(fuzziness)
   {}
 
-  [[nodiscard]] bool Scatter(const Ray &ray, const HitRecord &rec, Color &attenuation, Ray &scattered) const noexcept override;
+  [[nodiscard]] bool
+    Scatter(const Ray &ray, const HitRecord &rec, Color &attenuation, Ray &scattered) const noexcept override;
 
 private:
   /// @brief The albedo of the material.

@@ -4,6 +4,7 @@ set(DOXYGEN_GENERATE_HTML YES)
 set(DOXYGEN_GENERATE_LATEX NO)
 set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
 set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
 # -- RT Public Headers --
 file(GLOB LIB_RT_FILES ../include/rt/*.hpp ../include/rt/primitives/*.hpp)
 

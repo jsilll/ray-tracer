@@ -1,8 +1,8 @@
 #pragma once
 
 #include <rt/color.hpp>
-#include <rt/ray.hpp>
 #include <rt/hit_record.hpp>
+#include <rt/ray.hpp>
 
 namespace rt {
 

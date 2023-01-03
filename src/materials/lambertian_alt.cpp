@@ -12,4 +12,4 @@ bool LambertianAlt::Scatter([[maybe_unused]] const Ray &ray,
   return true;
 }
 
-}// namespace
+}// namespace rt

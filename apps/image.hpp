@@ -35,10 +35,10 @@ public:
     return *this;
   }
 
-  /// @brief Disable copy constructor.
+  /// @brief Delete copy constructor.
   Image(Image &) = delete;
 
-  /// @brief Disable copy assignment.
+  /// @brief Delete copy assignment.
   Image &operator=(Image &) = delete;
 
   /**

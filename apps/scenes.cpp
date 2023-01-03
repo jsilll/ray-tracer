@@ -1,7 +1,6 @@
 #include <scenes.hpp>
 
 #include <rt/materials/lambertian_alt.hpp>
-#include <rt/materials/lambertian_hack.hpp>
 #include <rt/materials/lambertian_true.hpp>
 #include <rt/materials/metal.hpp>
 #include <rt/primitives/sphere.hpp>

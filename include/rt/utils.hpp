@@ -18,7 +18,7 @@ constexpr auto kInf = std::numeric_limits<double>::infinity();
  * @param degrees The degrees to convert.
  * @return
  */
-inline constexpr double DegreesToRadians(double degrees) { return degrees * kPi / 180; }
+[[nodiscard]] inline constexpr double DegreesToRadians(double degrees) { return degrees * kPi / 180; }
 
 /**
  * @brief Clamps a value between a minimum and a maximum.
@@ -27,7 +27,7 @@ inline constexpr double DegreesToRadians(double degrees) { return degrees * kPi 
  * @param max The maximum value.
  * @return
  */
-inline constexpr double Clamp(double x, double min, double max)
+[[nodiscard]] inline constexpr double Clamp(double x, double min, double max)
 {
   if (x < min) {
     return min;
@@ -42,7 +42,7 @@ inline constexpr double Clamp(double x, double min, double max)
  * @brief Generates a random double in the range [0, 1).
  * @return
  */
-inline double RandomDouble() noexcept
+[[nodiscard]] inline double RandomDouble() noexcept
 {
   static std::random_device rd;
   static std::mt19937 generator(rd());

@@ -27,7 +27,8 @@ public:
     : _focal_length(focal_length), _viewport_width(viewport_width), _viewport_height(viewport_height),
       _position(position), _look_at(look_at), _vertical(Vec3::Normalized(vertical) * viewport_height),
       _horizontal(Vec3::Cross(Vec3::Normalized(look_at - position), Vec3::Normalized(vertical)) * viewport_width),
-      _lower_left_corner(position + Vec3::Normalized((look_at - position)) * focal_length - _horizontal / 2 - _vertical / 2)
+      _lower_left_corner(
+        position + Vec3::Normalized((look_at - position)) * focal_length - _horizontal / 2 - _vertical / 2)
   {}
 
   /**

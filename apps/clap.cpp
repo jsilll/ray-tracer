@@ -21,6 +21,5 @@ void Clap::Parse(int argc, char *argv[]) noexcept
         _args[key] = "";
       }
     }
-    // else: ignore positional arguments
   }
 }

@@ -20,6 +20,6 @@ namespace scenes {
  * @param aspect_ratio The aspect ratio of the camera.
  * @return
  */
-std::pair<rt::Scene, rt::Camera> MetalSpheres(double aspect_ratio) noexcept;
+[[nodiscard]] std::pair<rt::Scene, rt::Camera> MetalSpheres(double aspect_ratio) noexcept;
 
 }// namespace scenes
