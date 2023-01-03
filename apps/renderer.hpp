@@ -38,9 +38,9 @@ public:
     const auto max_width = static_cast<double>(_image_width - 1);
     const auto max_height = static_cast<double>(_image_height - 1);
     auto pixels = std::vector(_image_width, std::vector(_image_height, rt::Color(0, 0, 0)));
-    std::for_each(std::execution::par_unseq, std::begin(pixels), std::end(pixels), [&](auto &col) {
+    std::for_each(std::execution::par, std::begin(pixels), std::end(pixels), [&](auto &col) {
       const auto col_idx = &col - &pixels[0];
-      std::for_each(std::execution::seq, std::begin(col), std::end(col), [&](auto &pixel) {
+      std::for_each(std::execution::par, std::begin(col), std::end(col), [&](auto &pixel) {
         for (int s = 0; s < _samples_per_pixel; ++s) {
           const auto row_idx = &pixel - &col[0];
           const auto u = (static_cast<double>(col_idx) + rt::utils::RandomDouble()) / max_width;
